@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>corywright.org</title><link href="https://www.corywright.org/" rel="alternate"></link><link href="https://www.corywright.org/blog/feeds/general.atom.xml" rel="self"></link><id>https://www.corywright.org/</id><updated>2016-04-16T12:00:00-04:00</updated><entry><title>My First Test Post</title><link href="https://www.corywright.org/blog/posts/pelican-first-post/" rel="alternate"></link><published>2016-04-16T12:00:00-04:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2016-04-16:blog/posts/pelican-first-post/</id><summary type="html">&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;1&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;The path-less shebang syntax *will* show line numbers.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>corywright.org</title><link href="https://www.corywright.org/" rel="alternate"></link><link href="https://www.corywright.org/blog/feeds/general.atom.xml" rel="self"></link><id>https://www.corywright.org/</id><updated>2016-04-19T12:00:00-04:00</updated><entry><title>My fourth Test Post</title><link href="https://www.corywright.org/blog/posts/pelican-fourth-post/" rel="alternate"></link><published>2016-04-19T12:00:00-04:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2016-04-19:blog/posts/pelican-fourth-post/</id><summary type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;The path-less shebang syntax *will* show line numbers.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Something else:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; with line numbers
+&lt;span class="nb"&gt;exit&lt;/span&gt; 1
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="general"></category><category term="testing"></category><category term="another"></category></entry><entry><title>My third Test Post</title><link href="https://www.corywright.org/blog/posts/pelican-third-post/" rel="alternate"></link><published>2016-04-18T12:00:00-04:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2016-04-18:blog/posts/pelican-third-post/</id><summary type="html">&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;1&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;The path-less shebang syntax *will* show line numbers.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;Something else:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; with line numbers
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="general"></category></entry><entry><title>My Second Test Post</title><link href="https://www.corywright.org/blog/posts/pelican-second-post/" rel="alternate"></link><published>2016-04-17T12:00:00-04:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2016-04-17:blog/posts/pelican-second-post/</id><summary type="html">&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;1&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;The path-less shebang syntax *will* show line numbers.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;Something else:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; with line numbers
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="general"></category></entry><entry><title>My First Test Post</title><link href="https://www.corywright.org/blog/posts/pelican-first-post/" rel="alternate"></link><published>2016-04-16T12:00:00-04:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2016-04-16:blog/posts/pelican-first-post/</id><summary type="html">&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;1&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;The path-less shebang syntax *will* show line numbers.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
