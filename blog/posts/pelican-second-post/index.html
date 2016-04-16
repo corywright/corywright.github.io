@@ -43,19 +43,8 @@
   <!-- Sidebar -->
   <aside>
     <!--<center><a href="https://www.corywright.org"><img id="avatar" src=""></a></center>-->
-    <div>
-      <a href="/"><img src="/images/blue-bg-square-192x192.jpeg"></a>
-    </div>
+    <div id="avatar-head"></div>
     
-
-    <nav class="nav">
-      <ul class="list-bare">
-      
-         
-        <li><a class="nav__link" href="/">Home</a></li>
-<li><a class="nav__link" href="https://www.corywright.org/about/">About</a></li><li><a class="nav__link" href="https://www.corywright.org/resume/">Resume</a></li>        <li><a class="nav__link" href="/blog/">Blog</a></li>
-      </ul>
-    </nav>
 
     <p class="social">
         <a href="https://github.com/corywright" target="_blank" ><img src="https://www.corywright.org/theme/images/icons/github.png"></a>
@@ -64,6 +53,15 @@
       <a href="https://www.corywright.org/blog/feeds/all.atom.xml" rel="alternate">
         <img src="https://www.corywright.org/theme/images/icons/rss.png"></a>
     </p>
+
+    <nav class="nav">
+      <ul class="list-bare">
+      
+         
+        <li><a class="nav__link" href="/">Home</a></li>
+<li><a class="nav__link" href="https://www.corywright.org/resume/">Resume</a></li>        <li><a class="nav__link" href="/blog/">Blog</a></li>
+      </ul>
+    </nav>
 
     <h2>Blog Topics</h2>
     <ul class="navbar">
@@ -77,13 +75,18 @@
   <article>
     <h2 class="post_title post_detail"><a href="https://www.corywright.org/blog/posts/pelican-second-post/" rel="bookmark" title="Permalink to My Second Test Post">My Second Test Post</a></h2>
     <div class="entry-content blog-post">
-      <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;The path-less shebang syntax *will* show line numbers.&quot;</span><span class="p">)</span>
-</pre></div>
-</td></tr></table>
+      <p>Different hardware provisioning</p>
+<div class="highlight"><pre><span></span><span class="cp">{%</span>- <span class="k">set</span> <span class="nv">hardware</span> <span class="o">=</span> <span class="nv">grains.get</span><span class="o">(</span><span class="s1">&#39;productname&#39;</span><span class="o">,</span><span class="s1">&#39;&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+<span class="cp">{%</span>- <span class="k">set</span> <span class="nv">is_virtual</span> <span class="o">=</span> <span class="nv">grains.get</span><span class="o">(</span><span class="s1">&#39;virtual&#39;</span><span class="o">,</span><span class="s1">&#39;&#39;</span><span class="o">)</span> <span class="p">!</span><span class="o">=</span> <span class="s1">&#39;physical&#39;</span> <span class="cp">%}</span>
 
-<p>Something else:</p>
-<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="nb">echo</span> with line numbers
+<span class="l l-Scalar l-Scalar-Plain">include</span><span class="p p-Indicator">:</span>
+  <span class="cp">{%</span> <span class="k">if</span> <span class="nv">hardware</span> <span class="o">==</span> <span class="s1">&#39;ProLiant DL380 Gen9&#39;</span> <span class="cp">%}</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">storage.disks.hp</span>
+  <span class="cp">{%</span> <span class="k">elif</span> <span class="nv">hardware</span> <span class="o">==</span> <span class="s1">&#39;PowerEdge R515&#39;</span> <span class="cp">%}</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">storage.disks.dell</span>
+  <span class="cp">{%</span> <span class="k">elif</span> <span class="nv">is_virtual</span> <span class="cp">%}</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">storage.disks.virtual</span>
+  <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
 </pre></div>
     </div>
     <div class="post_list">

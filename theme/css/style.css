@@ -12,6 +12,14 @@ h1, h2 {
   margin-bottom: 10px;
 }
 
+#avatar-head {
+  background-image: url("/images/blue-bg-square-192x192.jpeg");
+  width: 192px;
+  height: 192px;
+  margin: 0px auto;
+  border: 0px;
+  padding: 0px;
+}
 
 .title
 {
@@ -61,9 +69,9 @@ body {margin: 0}
 body > article, footer {
   line-height: 1.6em;
   display: block;
-  max-width: 700px;
-  margin: 40px auto auto 355px;
-  padding: 20px 80px 10px;
+  max-width: 750px;
+  margin: 40px auto auto 330px;
+  padding: 20px 30px 10px;
 }
 
 article ol
@@ -157,7 +165,8 @@ aside > h2 {
 .social
 {
   display: inline-block;
-  margin-top: 40px;
+/*  margin-top: 40px;*/
+  margin: 10px auto 0px;
 }
 
 .nav
@@ -166,7 +175,7 @@ aside > h2 {
   margin-left: -30px;
   margin-right: -30px;
   border: 1px solid #328cc7;
-  margin-top: 40px;
+  margin-top: 10px;
 }
 
 .nav > ul > li
@@ -239,6 +248,14 @@ aside > h2 {
     width: 50px;
     margin: 10px auto;
   }
+  
+  #avatar-head {
+    width: 0px;
+    height: 0px;
+    margin: 0px;
+    padding: 0px;
+  }
+  
 }
 
 img {
