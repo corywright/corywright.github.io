@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>corywright.org</title><link href="https://www.corywright.org/" rel="alternate"></link><link href="https://www.corywright.org/blog/feeds/all.atom.xml" rel="self"></link><id>https://www.corywright.org/</id><updated>2017-09-14T12:00:00-04:00</updated><entry><title>Inheriting Common SaltStack State Parameters</title><link href="https://www.corywright.org/blog/posts/inheriting-common-saltstack-state-parameters/" rel="alternate"></link><published>2017-09-14T12:00:00-04:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2017-09-14:blog/posts/inheriting-common-saltstack-state-parameters/</id><summary type="html">&lt;p&gt;There is a simple way to inherit parameters from another state:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>corywright.org</title><link href="https://www.corywright.org/" rel="alternate"></link><link href="https://www.corywright.org/blog/feeds/all.atom.xml" rel="self"></link><id>https://www.corywright.org/</id><updated>2018-02-15T15:40:00-05:00</updated><entry><title>avoiding-adding-commands-to-bash-history</title><link href="https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/" rel="alternate"></link><published>2018-02-15T15:40:00-05:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2018-02-15:blog/posts/avoiding-adding-commands-to-bash-history/</id><summary type="html">&lt;p&gt;It's generally a bad idea to enter passwords on the command line, because other processes can see these passwords in various places and also because, by default, your command history is saved into a &lt;code&gt;~/.bash_history&lt;/code&gt; file in your home directory after you exit your shell session.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
+Authenticating user &lt;span class="s2"&gt;&amp;quot;openstack&amp;quot;&lt;/span&gt; ...
+Success
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Unfortunately, &lt;code&gt;SomeS3cretPassword&lt;/code&gt; will be recorded in &lt;code&gt;~/.bash_history&lt;/code&gt;. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# history | grep rabbitmqctl&lt;/span&gt;
+   &lt;span class="m"&gt;67&lt;/span&gt;  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
+   &lt;span class="m"&gt;68&lt;/span&gt;  &lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep rabbitmqctl
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;There is a way to avoid this -- simply add one or more blank spaces to the beginning of the command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
+Authenticating user &lt;span class="s2"&gt;&amp;quot;openstack&amp;quot;&lt;/span&gt; ...
+Success
+&lt;span class="c1"&gt;# history | grep rabbitmqctl&lt;/span&gt;
+   &lt;span class="m"&gt;68&lt;/span&gt;  &lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep rabbitmqctl
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notice the extra space between &lt;code&gt;$&lt;/code&gt; and &lt;code&gt;sudo&lt;/code&gt; in the first line above.&lt;/p&gt;</summary><category term="bash commandline"></category></entry><entry><title>Inheriting Common SaltStack State Parameters</title><link href="https://www.corywright.org/blog/posts/inheriting-common-saltstack-state-parameters/" rel="alternate"></link><published>2017-09-14T12:00:00-04:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2017-09-14:blog/posts/inheriting-common-saltstack-state-parameters/</id><summary type="html">&lt;p&gt;There is a simple way to inherit parameters from another state:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;os&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;salt&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;pillar.get&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;openstack:auth&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;set-openstack-params&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
   &lt;span class="l l-Scalar l-Scalar-Plain"&gt;cmd.run&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;

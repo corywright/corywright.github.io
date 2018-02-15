@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en" itemscope itemtype="http://schema.org/Person">
+<head>
+  <meta charset="utf-8">
+  <!-- Site Meta Data -->
+  <title>Cory Wright - Blog - avoiding-adding-commands-to-bash-history</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Cory Wright">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <!-- schema.org -->
+  <meta itemprop="name" content="corywright.org">
+  <meta itemprop="image" content="https://www.corywright.org/images/twitter-image-192x192.jpg">
+  <meta itemprop="description" content="">
+
+  <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' >
+  <!-- Style Meta Data -->
+  <link rel="stylesheet" type="text/css" href="https://www.corywright.org/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://www.corywright.org/theme/css/pygments.css">
+
+  <!-- Feed Meta Data -->
+  <link href="https://www.corywright.org/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="corywright.org ATOM Feed">
+
+  <!-- Twitter Feed -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@corywright">
+  <meta name="twitter:site:id" content="5497">
+  <meta name="twitter:creator" content="@corywright">
+  <meta name="twitter:creator:id" content="5497">
+  <meta name="twitter:image" content="https://www.corywright.org/images/twitter-image-192x192.jpg">
+  <meta property="og:image" content="https://www.corywright.org/images/twitter-image-192x192.jpg">
+
+<meta name="twitter:url" content="https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/">
+<meta name="twitter:title" content="corywright.org - avoiding-adding-commands-to-bash-history">
+<meta name="twitter:description" content="summarize avoiding-adding-commands-to-bash-history">
+
+<!-- Facebook Meta Data -->
+<meta property="og:title" content="corywright.org - avoiding-adding-commands-to-bash-history" />
+<meta property="og:description" content="summarize avoiding-adding-commands-to-bash-history" />
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <aside>
+    <!--<center><a href="https://www.corywright.org"><img id="avatar" src="https://www.corywright.org/images/twitter-image-192x192.jpg"></a></center>-->
+    <div id="avatar-head"></div>
+
+
+    <p class="social">
+        <a href="https://github.com/corywright" target="_blank" ><img src="https://www.corywright.org/theme/images/icons/github.png" alt="github"></a>
+        <a href="https://twitter.com/corywright" target="_blank" ><img src="https://www.corywright.org/theme/images/icons/twitter.png" alt="twitter"></a>
+        <a href="https://www.linkedin.com/in/corywright" target="_blank" ><img src="https://www.corywright.org/theme/images/icons/linkedin.png" alt="linkedin"></a>
+      <a href="https://www.corywright.org/blog/feeds/all.atom.xml" rel="alternate">
+        <img src="https://www.corywright.org/theme/images/icons/rss.png"></a>
+    </p>
+
+    <nav class="nav">
+      <ul class="list-bare">
+
+
+        <li><a class="nav__link" href="/">Home</a></li>
+<li><a class="nav__link" href="https://www.corywright.org/about/">About</a></li><li><a class="nav__link" href="https://www.corywright.org/resume/">Resume</a></li>        <li><a class="nav__link" href="/blog/">Blog</a></li>
+      </ul>
+    </nav>
+
+    <h2>Blog Topics</h2>
+    <ul class="navbar">
+      <li class="active"><a href="https://www.corywright.org/blog/category/command-line-tips/">Command Line Tips</a></li>
+      <li><a href="https://www.corywright.org/blog/category/saltstack/">SaltStack</a></li>
+    </ul>
+  </aside>
+
+  <!-- Content -->
+  <article>
+<section id="content">
+  <article>
+    <h2 class="post_title post_detail"><a href="https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/" rel="bookmark" title="Permalink to avoiding-adding-commands-to-bash-history">avoiding-adding-commands-to-bash-history</a></h2>
+    <div class="entry-content blog-post">
+      <p>It's generally a bad idea to enter passwords on the command line, because other processes can see these passwords in various places and also because, by default, your command history is saved into a <code>~/.bash_history</code> file in your home directory after you exit your shell session.</p>
+<div class="highlight"><pre><span></span>$ sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
+Authenticating user <span class="s2">&quot;openstack&quot;</span> ...
+Success
+</pre></div>
+
+
+<p>Unfortunately, <code>SomeS3cretPassword</code> will be recorded in <code>~/.bash_history</code>. </p>
+<div class="highlight"><pre><span></span><span class="c1"># history | grep rabbitmqctl</span>
+   <span class="m">67</span>  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
+   <span class="m">68</span>  <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
+</pre></div>
+
+
+<p>There is a way to avoid this -- simply add one or more blank spaces to the beginning of the command:</p>
+<div class="highlight"><pre><span></span>$  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
+Authenticating user <span class="s2">&quot;openstack&quot;</span> ...
+Success
+<span class="c1"># history | grep rabbitmqctl</span>
+   <span class="m">68</span>  <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
+</pre></div>
+
+
+<p>Notice the extra space between <code>$</code> and <code>sudo</code> in the first line above.</p>
+    </div>
+    <div class="post_list">
+      <span> Posted in </span>
+      <span class="post_category"><a href="https://www.corywright.org/blog/category/command-line-tips/" rel="bookmark" title="Permalink to Command Line Tips">Command Line Tips</a></span>
+      <span>on</span>
+      <span class="post_date">Thu 15 February 2018</span>
+      <div><span>Tagged with </span>
+        <span><a href="https://www.corywright.org/blog/tag/bash-commandline/">bash commandline</a></span>
+      </div>
+      <br>
+      <div class="entry-social">
+        <span class="twitter"><a target="_blank" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="Twitter" href="https://twitter.com/share?url=https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/&text=avoiding-adding-commands-to-bash-history&via=corywright"><img src="https://www.corywright.org/theme/images/icons/twitter-s.png"></a></span>
+
+        <span class="gplus"><a target="_blank" title="Google +" href="https://plus.google.com/share?url=https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/&hl=fr" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="https://www.corywright.org/theme/images/icons/google-s.png"></a></span>
+
+        <span class="facebook"><a target="_blank" title="Facebook" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;" href="https://www.facebook.com/sharer.php?u=https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/&t=avoiding-adding-commands-to-bash-history"><img src="https://www.corywright.org/theme/images/icons/facebook-s.png"></a></span>
+
+        <span class="linkedin"><a  target="_blank" title="Linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/&title=avoiding-adding-commands-to-bash-history" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="https://www.corywright.org/theme/images/icons/linkedin-s.png"></a></span>
+
+        <span class="mail"><a href="mailto:?subject=avoiding-adding-commands-to-bash-history&amp;body=Check out this article by Cory Wright. https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/" title="Share by Email" target="_blank"><img src="https://www.corywright.org/theme/images/icons/mail-s.png"></a></span>
+      </div>
+    </div>
+    <div class="comments">
+      <h2>Comments</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_identifier = "blog/posts/avoiding-adding-commands-to-bash-history/";
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://corywright.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] ||
+             document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  </article>
+</section>
+  </article>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      This site is managed with <a href="http://getpelican.com/">Pelican</a>,
+      a <a href="https://www.python.org/">Python</a>-based static site generator, and
+      hosted by <a href="https://github.com">Github</a> pages and
+      <a href="https://www.cloudflare.com/">Cloudflare</a>.
+      <br />
+      The theme is based on <a href="https://github.com/parbhat/pelican-blue">Pelican-Blue</a>
+      by <a href="https://parbhatpuri.com/">@parbhat</a>.
+    </p>
+  </footer>
+
+  <!-- Analytics -->
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-51894-4']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  </script>
+
+</body>
+</html>
