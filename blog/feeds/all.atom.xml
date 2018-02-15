@@ -7,7 +7,7 @@ Success
 
 
 &lt;p&gt;Unfortunately, &lt;code&gt;SomeS3cretPassword&lt;/code&gt; will be recorded in &lt;code&gt;~/.bash_history&lt;/code&gt;. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# history | grep rabbitmqctl&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep rabbitmqctl
    &lt;span class="m"&gt;67&lt;/span&gt;  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
    &lt;span class="m"&gt;68&lt;/span&gt;  &lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep rabbitmqctl
 &lt;/pre&gt;&lt;/div&gt;
@@ -17,7 +17,7 @@ Success
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
 Authenticating user &lt;span class="s2"&gt;&amp;quot;openstack&amp;quot;&lt;/span&gt; ...
 Success
-&lt;span class="c1"&gt;# history | grep rabbitmqctl&lt;/span&gt;
+$ &lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep rabbitmqctl
    &lt;span class="m"&gt;68&lt;/span&gt;  &lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep rabbitmqctl
 &lt;/pre&gt;&lt;/div&gt;
 

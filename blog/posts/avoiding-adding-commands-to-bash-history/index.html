@@ -86,7 +86,7 @@ Success
 
 
 <p>Unfortunately, <code>SomeS3cretPassword</code> will be recorded in <code>~/.bash_history</code>. </p>
-<div class="highlight"><pre><span></span><span class="c1"># history | grep rabbitmqctl</span>
+<div class="highlight"><pre><span></span>$ <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
    <span class="m">67</span>  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
    <span class="m">68</span>  <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
 </pre></div>
@@ -96,7 +96,7 @@ Success
 <div class="highlight"><pre><span></span>$  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
 Authenticating user <span class="s2">&quot;openstack&quot;</span> ...
 Success
-<span class="c1"># history | grep rabbitmqctl</span>
+$ <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
    <span class="m">68</span>  <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
 </pre></div>
 
