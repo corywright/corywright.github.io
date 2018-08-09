@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" itemscope itemtype="http://schema.org/Person">
+<head>
+  <meta charset="utf-8">
+  <!-- Site Meta Data -->
+  <title>Cory Wright - Blog - redirecting-stdout-and-stderr-in-bash</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Cory Wright">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <!-- schema.org -->
+  <meta itemprop="name" content="corywright.org">
+  <meta itemprop="image" content="https://www.corywright.org/images/twitter-image-192x192.jpg">
+  <meta itemprop="description" content="">
+
+  <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' >
+  <!-- Style Meta Data -->
+  <link rel="stylesheet" type="text/css" href="https://www.corywright.org/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://www.corywright.org/theme/css/pygments.css">
+
+  <!-- Feed Meta Data -->
+  <link href="https://www.corywright.org/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="corywright.org ATOM Feed">
+
+  <!-- Twitter Feed -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@corywright">
+  <meta name="twitter:site:id" content="5497">
+  <meta name="twitter:creator" content="@corywright">
+  <meta name="twitter:creator:id" content="5497">
+  <meta name="twitter:image" content="https://www.corywright.org/images/twitter-image-192x192.jpg">
+  <meta property="og:image" content="https://www.corywright.org/images/twitter-image-192x192.jpg">
+
+<meta name="twitter:url" content="https://www.corywright.org/blog/posts/redirecting-stdout-and-stderr-in-bash/">
+<meta name="twitter:title" content="corywright.org - redirecting-stdout-and-stderr-in-bash">
+<meta name="twitter:description" content="Redirecting stdout and stderr in Bash 4">
+
+<!-- Facebook Meta Data -->
+<meta property="og:title" content="corywright.org - redirecting-stdout-and-stderr-in-bash" />
+<meta property="og:description" content="Redirecting stdout and stderr in Bash 4" />
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <aside>
+    <!--<center><a href="https://www.corywright.org"><img id="avatar" src="https://www.corywright.org/images/twitter-image-192x192.jpg"></a></center>-->
+    <div id="avatar-head"></div>
+
+
+    <p class="social">
+        <a href="https://github.com/corywright" target="_blank" ><img src="https://www.corywright.org/theme/images/icons/github.png" alt="github"></a>
+        <a href="https://twitter.com/corywright" target="_blank" ><img src="https://www.corywright.org/theme/images/icons/twitter.png" alt="twitter"></a>
+        <a href="https://www.linkedin.com/in/corywright" target="_blank" ><img src="https://www.corywright.org/theme/images/icons/linkedin.png" alt="linkedin"></a>
+      <a href="https://www.corywright.org/blog/feeds/all.atom.xml" rel="alternate">
+        <img src="https://www.corywright.org/theme/images/icons/rss.png"></a>
+    </p>
+
+    <nav class="nav">
+      <ul class="list-bare">
+
+
+        <li><a class="nav__link" href="/">Home</a></li>
+<li><a class="nav__link" href="https://www.corywright.org/about/">About</a></li><li><a class="nav__link" href="https://www.corywright.org/resume/">Resume</a></li>        <li><a class="nav__link" href="/blog/">Blog</a></li>
+      </ul>
+    </nav>
+
+    <h2>Blog Topics</h2>
+    <ul class="navbar">
+      <li class="active"><a href="https://www.corywright.org/blog/category/command-line-tips/">Command Line Tips</a></li>
+      <li><a href="https://www.corywright.org/blog/category/saltstack/">SaltStack</a></li>
+    </ul>
+  </aside>
+
+  <!-- Content -->
+  <article>
+<section id="content">
+  <article>
+    <h2 class="post_title post_detail"><a href="https://www.corywright.org/blog/posts/redirecting-stdout-and-stderr-in-bash/" rel="bookmark" title="Permalink to redirecting-stdout-and-stderr-in-bash">redirecting-stdout-and-stderr-in-bash</a></h2>
+    <div class="entry-content blog-post">
+      <p>It's common when writing shell scripts or running cronjobs to want to merge standout error (file descriptor 2) with standard output (file descriptor 1). The traditional way in shell scripts to redirect stderr to stdout looks like this:</p>
+<div class="highlight"><pre><span></span>$ somecommand 2&gt;<span class="p">&amp;</span>1
+</pre></div>
+
+
+<p>Or, to redirect it to a file:</p>
+<div class="highlight"><pre><span></span>$ somecommand &gt; /tmp/somefile 2&gt;<span class="p">&amp;</span>1
+</pre></div>
+
+
+<p>Or, to send all output to <code>/dev/null</code>, which is simply another "file" as far as the operating system is concerned:</p>
+<div class="highlight"><pre><span></span>$ somecommand &gt; /dev/null 2&gt;<span class="p">&amp;</span>1
+</pre></div>
+
+
+<p>However, Bash 4 introduced an additional, <a href="https://www.gnu.org/software/bash/manual/bash.html#Redirecting-Standard-Output-and-Standard-Error">simpler syntax</a> for accomplishing this and it's slightly easier to remember. The new syntax for the three commands above becomes:</p>
+<div class="highlight"><pre><span></span>$ somecommand <span class="p">&amp;</span>&gt; 
+$ somecommand <span class="p">&amp;</span>&gt; /tmp/somefile
+$ somecommand <span class="p">&amp;</span>&gt; /dev/null
+</pre></div>
+    </div>
+    <div class="post_list">
+      <span> Posted in </span>
+      <span class="post_category"><a href="https://www.corywright.org/blog/category/command-line-tips/" rel="bookmark" title="Permalink to Command Line Tips">Command Line Tips</a></span>
+      <span>on</span>
+      <span class="post_date">Thu 09 August 2018</span>
+      <div><span>Tagged with </span>
+        <span><a href="https://www.corywright.org/blog/tag/bash-commandline/">bash commandline</a></span>
+      </div>
+      <br>
+      <div class="entry-social">
+        <span class="twitter"><a target="_blank" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="Twitter" href="https://twitter.com/share?url=https://www.corywright.org/blog/posts/redirecting-stdout-and-stderr-in-bash/&text=redirecting-stdout-and-stderr-in-bash&via=corywright"><img src="https://www.corywright.org/theme/images/icons/twitter-s.png"></a></span>
+
+        <span class="gplus"><a target="_blank" title="Google +" href="https://plus.google.com/share?url=https://www.corywright.org/blog/posts/redirecting-stdout-and-stderr-in-bash/&hl=fr" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="https://www.corywright.org/theme/images/icons/google-s.png"></a></span>
+
+        <span class="facebook"><a target="_blank" title="Facebook" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;" href="https://www.facebook.com/sharer.php?u=https://www.corywright.org/blog/posts/redirecting-stdout-and-stderr-in-bash/&t=redirecting-stdout-and-stderr-in-bash"><img src="https://www.corywright.org/theme/images/icons/facebook-s.png"></a></span>
+
+        <span class="linkedin"><a  target="_blank" title="Linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.corywright.org/blog/posts/redirecting-stdout-and-stderr-in-bash/&title=redirecting-stdout-and-stderr-in-bash" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="https://www.corywright.org/theme/images/icons/linkedin-s.png"></a></span>
+
+        <span class="mail"><a href="mailto:?subject=redirecting-stdout-and-stderr-in-bash&amp;body=Check out this article by Cory Wright. https://www.corywright.org/blog/posts/redirecting-stdout-and-stderr-in-bash/" title="Share by Email" target="_blank"><img src="https://www.corywright.org/theme/images/icons/mail-s.png"></a></span>
+      </div>
+    </div>
+    <div class="comments">
+      <h2>Comments</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_identifier = "blog/posts/redirecting-stdout-and-stderr-in-bash/";
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://corywright.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] ||
+             document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  </article>
+</section>
+  </article>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      This site is managed with <a href="http://getpelican.com/">Pelican</a>,
+      a <a href="https://www.python.org/">Python</a>-based static site generator, and
+      hosted by <a href="https://github.com">Github</a> pages and
+      <a href="https://www.cloudflare.com/">Cloudflare</a>.
+      <br />
+      The theme is based on <a href="https://github.com/parbhat/pelican-blue">Pelican-Blue</a>
+      by <a href="https://parbhatpuri.com/">@parbhat</a>.
+    </p>
+  </footer>
+
+  <!-- Analytics -->
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-51894-4']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  </script>
+
+</body>
+</html>

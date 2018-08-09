@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>corywright.org</title><link href="https://www.corywright.org/" rel="alternate"></link><link href="https://www.corywright.org/blog/feeds/all.atom.xml" rel="self"></link><id>https://www.corywright.org/</id><updated>2018-02-15T15:40:00-05:00</updated><entry><title>Avoiding Adding Commands to Bash History</title><link href="https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/" rel="alternate"></link><published>2018-02-15T15:40:00-05:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2018-02-15:blog/posts/avoiding-adding-commands-to-bash-history/</id><summary type="html">&lt;p&gt;It's generally a bad idea to enter passwords on the command line, because other processes can see these passwords in various places and also because, by default, your command history is saved into a &lt;code&gt;~/.bash_history&lt;/code&gt; file in your home directory after you exit your shell session.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>corywright.org</title><link href="https://www.corywright.org/" rel="alternate"></link><link href="https://www.corywright.org/blog/feeds/all.atom.xml" rel="self"></link><id>https://www.corywright.org/</id><updated>2018-08-09T09:36:00-04:00</updated><entry><title>redirecting-stdout-and-stderr-in-bash</title><link href="https://www.corywright.org/blog/posts/redirecting-stdout-and-stderr-in-bash/" rel="alternate"></link><published>2018-08-09T09:36:00-04:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2018-08-09:blog/posts/redirecting-stdout-and-stderr-in-bash/</id><summary type="html">&lt;p&gt;It's common when writing shell scripts or running cronjobs to want to merge standout error (file descriptor 2) with standard output (file descriptor 1). The traditional way in shell scripts to redirect stderr to stdout looks like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ somecommand 2&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Or, to redirect it to a file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ somecommand &amp;gt; /tmp/somefile 2&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Or, to send all output to &lt;code&gt;/dev/null&lt;/code&gt;, which is simply another "file" as far as the operating system is concerned:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ somecommand &amp;gt; /dev/null 2&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;However, Bash 4 introduced an additional, &lt;a href="https://www.gnu.org/software/bash/manual/bash.html#Redirecting-Standard-Output-and-Standard-Error"&gt;simpler syntax&lt;/a&gt; for accomplishing this and it's slightly easier to remember. The new syntax for the three commands above becomes:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ somecommand &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt; 
+$ somecommand &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt; /tmp/somefile
+$ somecommand &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt; /dev/null
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="bash commandline"></category></entry><entry><title>Avoiding Adding Commands to Bash History</title><link href="https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/" rel="alternate"></link><published>2018-02-15T15:40:00-05:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2018-02-15:blog/posts/avoiding-adding-commands-to-bash-history/</id><summary type="html">&lt;p&gt;It's generally a bad idea to enter passwords on the command line, because other processes can see these passwords in various places and also because, by default, your command history is saved into a &lt;code&gt;~/.bash_history&lt;/code&gt; file in your home directory after you exit your shell session.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
 Authenticating user &lt;span class="s2"&gt;&amp;quot;openstack&amp;quot;&lt;/span&gt; ...
 Success
