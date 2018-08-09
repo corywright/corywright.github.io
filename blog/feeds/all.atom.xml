@@ -18,7 +18,10 @@
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ somecommand &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt; 
 $ somecommand &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt; /tmp/somefile
 $ somecommand &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt; /dev/null
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="bash commandline"></category></entry><entry><title>Avoiding Adding Commands to Bash History</title><link href="https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/" rel="alternate"></link><published>2018-02-15T15:40:00-05:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2018-02-15:blog/posts/avoiding-adding-commands-to-bash-history/</id><summary type="html">&lt;p&gt;It's generally a bad idea to enter passwords on the command line, because other processes can see these passwords in various places and also because, by default, your command history is saved into a &lt;code&gt;~/.bash_history&lt;/code&gt; file in your home directory after you exit your shell session.&lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Of course, the older syntax is still valid in Bash 4 and will likely always be supported.&lt;/p&gt;</summary><category term="bash commandline"></category></entry><entry><title>Avoiding Adding Commands to Bash History</title><link href="https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/" rel="alternate"></link><published>2018-02-15T15:40:00-05:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2018-02-15:blog/posts/avoiding-adding-commands-to-bash-history/</id><summary type="html">&lt;p&gt;It's generally a bad idea to enter passwords on the command line, because other processes can see these passwords in various places and also because, by default, your command history is saved into a &lt;code&gt;~/.bash_history&lt;/code&gt; file in your home directory after you exit your shell session.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
 Authenticating user &lt;span class="s2"&gt;&amp;quot;openstack&amp;quot;&lt;/span&gt; ...
 Success
