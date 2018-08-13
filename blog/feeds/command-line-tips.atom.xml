@@ -4,7 +4,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;However, Bash 4 introduced an additional, &lt;a href="https://www.gnu.org/software/bash/manual/bash.html#Redirecting-Standard-Output-and-Standard-Error"&gt;simpler syntax&lt;/a&gt; for accomplishing this and it's slightly easier to remember. The new syntax for the three commands above becomes:&lt;/p&gt;
+&lt;p&gt;However, Bash 4 introduced an additional, &lt;a href="https://www.gnu.org/software/bash/manual/bash.html#Redirecting-Standard-Output-and-Standard-Error"&gt;simpler syntax&lt;/a&gt; for accomplishing this and it's slightly easier to remember.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ somecommand &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt; /dev/null
 &lt;/pre&gt;&lt;/div&gt;
 
