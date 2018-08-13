@@ -78,25 +78,13 @@
   <article>
     <h2 class="post_title post_detail"><a href="https://www.corywright.org/blog/posts/redirecting-stdout-and-stderr-in-bash/" rel="bookmark" title="Permalink to Redirecting stderr to stdout in Bash 4">Redirecting stderr to stdout in Bash 4</a></h2>
     <div class="entry-content blog-post">
-      <p>It's common when writing shell scripts or running cronjobs to want to merge standout error (file descriptor 2) with standard output (file descriptor 1). The traditional way in shell scripts to redirect stderr to stdout looks like this:</p>
-<div class="highlight"><pre><span></span>$ somecommand 2&gt;<span class="p">&amp;</span>1
-</pre></div>
-
-
-<p>Or, to redirect it to a file:</p>
-<div class="highlight"><pre><span></span>$ somecommand &gt; /tmp/somefile 2&gt;<span class="p">&amp;</span>1
-</pre></div>
-
-
-<p>Or, to send all output to <code>/dev/null</code>, which is simply another "file" as far as the operating system is concerned:</p>
+      <p>It's common when writing shell scripts or running cronjobs to want to merge standout error (file descriptor 2) with standard output (file descriptor 1) and write it to a file or <code>/dev/null</code>. The traditional way in shell scripts to redirect stderr to stdout looks like this:</p>
 <div class="highlight"><pre><span></span>$ somecommand &gt; /dev/null 2&gt;<span class="p">&amp;</span>1
 </pre></div>
 
 
 <p>However, Bash 4 introduced an additional, <a href="https://www.gnu.org/software/bash/manual/bash.html#Redirecting-Standard-Output-and-Standard-Error">simpler syntax</a> for accomplishing this and it's slightly easier to remember. The new syntax for the three commands above becomes:</p>
-<div class="highlight"><pre><span></span>$ somecommand <span class="p">&amp;</span>&gt; 
-$ somecommand <span class="p">&amp;</span>&gt; /tmp/somefile
-$ somecommand <span class="p">&amp;</span>&gt; /dev/null
+<div class="highlight"><pre><span></span>$ somecommand <span class="p">&amp;</span>&gt; /dev/null
 </pre></div>
 
 
