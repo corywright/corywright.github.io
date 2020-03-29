@@ -6,11 +6,8 @@
 &lt;li&gt;&lt;code&gt;openstack-db01.res01.example.com&lt;/code&gt; - Master during normal operations&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;openstack-db02.res01.example.com&lt;/code&gt; - Secondary during normal operations&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Regarding PostgreSQL replication:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;We are using &lt;a href="https://www.postgresql.org/docs/12/warm-standby.html#STREAMING-REPLICATION"&gt;streaming-based replication&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;We are using &lt;a href="https://www.postgresql.org/docs/12/continuous-archiving.html"&gt;continuous archiving&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;In this post we will be using &lt;a href="https://www.postgresql.org/docs/12/warm-standby.html#STREAMING-REPLICATION"&gt;streaming-based replication&lt;/a&gt; and &lt;a href="https://www.postgresql.org/docs/12/continuous-archiving.html"&gt;continuous archiving&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We also will make use of &lt;a href="https://docs.saltstack.com/en/latest/topics/grains/#writing-grains"&gt;custom grains&lt;/a&gt;, &lt;a href="https://docs.saltstack.com/en/latest/topics/pillar/"&gt;pillar data&lt;/a&gt;, and the &lt;a href="https://docs.saltstack.com/en/latest/topics/mine/"&gt;salt mine&lt;/a&gt;, which are detailed below.&lt;/p&gt;
 &lt;h2&gt;Custom Grains&lt;/h2&gt;
 &lt;p&gt;Our states make use of a few custom grains that set the following grains based on the server's hostname.  For example, server with a hostname of &lt;code&gt;openstack-db02.res01.example.com&lt;/code&gt; would have the following grains set:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;dc&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;res01&lt;/span&gt;
