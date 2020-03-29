@@ -32,7 +32,7 @@
 &lt;h2&gt;Salt Mine&lt;/h2&gt;
 &lt;p&gt;Our Salt minions have Salt Mine enabled to allow other minions to fetch &lt;code&gt;network.ip_addrs&lt;/code&gt; from one another.  This feature is used on the PostgreSQL states to automatically detect the ip addresses of the other database servers in the same cluster.&lt;/p&gt;
 &lt;h2&gt;States Needed for the PostgreSQL Server&lt;/h2&gt;
-&lt;h3&gt;/srv/salt/openstack-db/packages.sls&lt;/h3&gt;
+&lt;p&gt;We use the PostgreSQL 12 packages &lt;a href="https://wiki.postgresql.org/wiki/Apt"&gt;provided by postgresql.org&lt;/a&gt;. They also maintain a &lt;a href="https://wiki.postgresql.org/wiki/Apt/FAQ"&gt;FAQ&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;/srv/salt/openstack-db/packages.sls&lt;/code&gt; file:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;postgresql-gpg-key&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
   &lt;span class="l l-Scalar l-Scalar-Plain"&gt;cmd.run&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
@@ -64,7 +64,6 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;/srv/salt/openstack-db/files.sls&lt;/h3&gt;
 &lt;p&gt;The &lt;code&gt;/srv/salt/openstack-db/files.sls&lt;/code&gt; file:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;# The first line sets a &amp;quot;target&amp;quot; string for the mine.get command that follows it, which fetchs a list&lt;/span&gt;
 &lt;span class="x"&gt;# of the primary ip addresses for any servers in this datacenter where nodetype is set to openstack-db&lt;/span&gt;
@@ -130,7 +129,6 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;/srv/salt/openstack-db/services.sls&lt;/h3&gt;
 &lt;p&gt;The &lt;code&gt;/srv/salt/openstack-db/services.sls&lt;/code&gt; file:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;service-postgresql&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
   &lt;span class="l l-Scalar l-Scalar-Plain"&gt;service.running&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
@@ -141,7 +139,6 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;/srv/salt/openstack-db/setup/create-users-and-grant-privileges.sls&lt;/h3&gt;
 &lt;p&gt;Create a file named &lt;code&gt;/srv/salt/openstack-db/setup/create-users-and-grant-privileges.sls&lt;/code&gt; with the following:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# this should only be run when initially setting up the primary db in the cluster&lt;/span&gt;
 
@@ -158,7 +155,6 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;/srv/salt/openstack-db/setup/configure-secondary-for-replication.sls&lt;/h3&gt;
 &lt;p&gt;The &lt;code&gt;/srv/salt/openstack-db/setup/configure-secondary-for-replication.sls&lt;/code&gt; file contains all the states necessary to configure a secondary server for replication.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# This sls file sets up a secondary postgresql server to replicate from the other.&lt;/span&gt;
 
