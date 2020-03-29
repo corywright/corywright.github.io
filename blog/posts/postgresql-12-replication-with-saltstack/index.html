@@ -85,6 +85,11 @@
 <li><code>openstack-db01.res01.example.com</code> - Master during normal operations</li>
 <li><code>openstack-db02.res01.example.com</code> - Secondary during normal operations</li>
 </ol>
+<p>Regarding PostgreSQL replication:</p>
+<ol>
+<li>We are using <a href="https://www.postgresql.org/docs/12/warm-standby.html#STREAMING-REPLICATION">streaming-based replication</a>.</li>
+<li>We are using <a href="https://www.postgresql.org/docs/12/continuous-archiving.html">continuous archiving</a></li>
+</ol>
 <h2>Custom Grains</h2>
 <p>Our states make use of a few custom grains that set the following grains based on the server's hostname.  For example, server with a hostname of <code>openstack-db02.res01.example.com</code> would have the following grains set:</p>
 <div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">dc</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">res01</span>
@@ -204,6 +209,12 @@
 <span class="x">host    replication     </span><span class="cp">{{</span> <span class="nv">pg.repl_username</span> <span class="cp">}}</span><span class="x">  127.0.0.1/32    md5</span>
 <span class="x">host    replication     </span><span class="cp">{{</span> <span class="nv">pg.repl_username</span> <span class="cp">}}</span><span class="x">  &lt;db01-ip&gt;/32    md5</span>
 <span class="x">host    replication     </span><span class="cp">{{</span> <span class="nv">pg.repl_username</span> <span class="cp">}}</span><span class="x">  &lt;db02-ip&gt;/32    md5</span>
+</pre></div>
+
+
+<p>Your <code>postgresql.conf</code> file will need to have the following options set:</p>
+<div class="highlight"><pre><span></span>archive_mode = on
+archive_command = &#39;test ! -f /var/lib/postgresql/pg12_wal/%f &amp;&amp; cp %p /var/lib/postgresql/pg12_wal/%f&#39;
 </pre></div>
 
 
