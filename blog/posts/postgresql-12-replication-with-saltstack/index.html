@@ -388,13 +388,13 @@ salt openstack-db02.res01.example.com service.start postgresql
 
 <p>We have now failed over to <code>openstack-db02.res01.example.com</code> and it is acting as master. Ensure database traffic is now being sent to this new master.</p>
 <h3>Failing Back: Promoting the Original Primary Back to Master</h3>
-<p>Once the original primary openstack-db server (<code>openstack-db01</code>) is back online then we can fail back to it.  Make sure the servers has been fully highstated first:</p>
+<p>Once the original primary openstack-db server (<code>openstack-db01</code>) is back online then we can fail back to it.  Make sure the server has been fully highstated first:</p>
 <div class="highlight"><pre><span></span>salt openstack-db01.res01.example.com state.highstate
 </pre></div>
 
 
 <p><strong>The next step will DESTROY the database directory on the original primary so be careful and follow the directions exactly.</strong></p>
-<p>On the next line change <code>False</code> to <code>True</code> at the end of the line in the pillar data. This is a safeguard so that the command is only run when you really want to destroy the data directory. Be sure to include the extra whitespace at the beginning of the command to prevent it from being saved to <code>~/.bash_history</code>.</p>
+<p>On the next line change <code>False</code> to <code>True</code> at the end of the line in the pillar data. This is a safeguard so that the command is only run when you really want to destroy the data directory. Be sure to include the extra whitespace at the beginning of the command to <a href="/blog/posts/avoiding-adding-commands-to-bash-history/">prevent it from being saved</a> to <code>~/.bash_history</code>.</p>
 <div class="highlight"><pre><span></span><span class="c1"># change False to True on the pillar line to confirm you want to destroy the datadir</span>
  salt openstack-db01.res01.example.com state.apply <span class="se">\</span>
         openstack-db.setup.configure-secondary-for-replication <span class="se">\</span>

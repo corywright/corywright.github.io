@@ -309,13 +309,13 @@ salt openstack-db02.res01.example.com service.start postgresql
 
 &lt;p&gt;We have now failed over to &lt;code&gt;openstack-db02.res01.example.com&lt;/code&gt; and it is acting as master. Ensure database traffic is now being sent to this new master.&lt;/p&gt;
 &lt;h3&gt;Failing Back: Promoting the Original Primary Back to Master&lt;/h3&gt;
-&lt;p&gt;Once the original primary openstack-db server (&lt;code&gt;openstack-db01&lt;/code&gt;) is back online then we can fail back to it.  Make sure the servers has been fully highstated first:&lt;/p&gt;
+&lt;p&gt;Once the original primary openstack-db server (&lt;code&gt;openstack-db01&lt;/code&gt;) is back online then we can fail back to it.  Make sure the server has been fully highstated first:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;salt openstack-db01.res01.example.com state.highstate
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;strong&gt;The next step will DESTROY the database directory on the original primary so be careful and follow the directions exactly.&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;On the next line change &lt;code&gt;False&lt;/code&gt; to &lt;code&gt;True&lt;/code&gt; at the end of the line in the pillar data. This is a safeguard so that the command is only run when you really want to destroy the data directory. Be sure to include the extra whitespace at the beginning of the command to prevent it from being saved to &lt;code&gt;~/.bash_history&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;On the next line change &lt;code&gt;False&lt;/code&gt; to &lt;code&gt;True&lt;/code&gt; at the end of the line in the pillar data. This is a safeguard so that the command is only run when you really want to destroy the data directory. Be sure to include the extra whitespace at the beginning of the command to &lt;a href="/blog/posts/avoiding-adding-commands-to-bash-history/"&gt;prevent it from being saved&lt;/a&gt; to &lt;code&gt;~/.bash_history&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# change False to True on the pillar line to confirm you want to destroy the datadir&lt;/span&gt;
  salt openstack-db01.res01.example.com state.apply &lt;span class="se"&gt;\&lt;/span&gt;
         openstack-db.setup.configure-secondary-for-replication &lt;span class="se"&gt;\&lt;/span&gt;
