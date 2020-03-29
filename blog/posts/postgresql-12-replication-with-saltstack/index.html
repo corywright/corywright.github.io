@@ -88,7 +88,7 @@
 <p>In this post we will be using <a href="https://www.postgresql.org/docs/12/warm-standby.html#STREAMING-REPLICATION">streaming-based replication</a> and <a href="https://www.postgresql.org/docs/12/continuous-archiving.html">continuous archiving</a>.</p>
 <p>We also will make use of <a href="https://docs.saltstack.com/en/latest/topics/grains/#writing-grains">custom grains</a>, <a href="https://docs.saltstack.com/en/latest/topics/pillar/">pillar data</a>, and the <a href="https://docs.saltstack.com/en/latest/topics/mine/">salt mine</a>, which are detailed below.</p>
 <h2>Custom Grains</h2>
-<p>Our states make use of a few custom grains that set the following grains based on the server's hostname.  For example, server with a hostname of <code>openstack-db02.res01.example.com</code> would have the following grains set:</p>
+<p>These states make use of a few custom grains that are set based on the server's hostname.  For example, server with a hostname of <code>openstack-db02.res01.example.com</code> would have the following grains set:</p>
 <div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">dc</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">res01</span>
 <span class="l l-Scalar l-Scalar-Plain">nodetype</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">openstack-db</span>
 <span class="l l-Scalar l-Scalar-Plain">nodenumber</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
@@ -98,7 +98,7 @@
 <p>In these examples, the server with <code>nodenumber</code> set to <code>1</code> indicates the server that is normally serving as master. </p>
 <p>You can adjust the variables in the states to suit your environment, but just be aware what these grains are referencing when used in the states in this post.</p>
 <h2>Pillar Variables</h2>
-<p>We also need to set the pillar data that is used by the the replication configuration states.</p>
+<p>We also need to set the pillar data that is used by the various states.</p>
 <div class="highlight"><pre><span></span><span class="c1"># Our openstack-db servers use the PGDG apt repos to install postgresql</span>
 <span class="l l-Scalar l-Scalar-Plain">openstack_postgresql_version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">12+213.pgdg18.04+1</span>
 
@@ -198,7 +198,9 @@
 </pre></div>
 
 
-<p>You'll need to replace the various <code>- source: salt://</code> locations in the above with the paths to your files. Also, make sure your PostgreSQL's <code>pg_hba.conf</code> is configured to allow replication from your database server's ip addresses. The following is a snippet from the <code>salt://openstack-db/etc/postgresql/12/main/pg_hba.conf</code> file referenced above:</p>
+<p>You'll need to replace the various <code>- source: salt://</code> locations in the above with the paths to your files. </p>
+<p>The <code>/var/lib/postgresql/.pgpass</code> state above is critical to states that handle configuring replication as that file is used by the <code>pg_basebackup</code> command to authenticate the secondary to the master.</p>
+<p>Ensure PostgreSQL's <code>pg_hba.conf</code> is configured to allow replication from your database server's ip addresses. The following is a snippet from the <code>salt://openstack-db/etc/postgresql/12/main/pg_hba.conf</code> file referenced above:</p>
 <div class="highlight"><pre><span></span><span class="x">local   replication     postgres                                peer</span>
 <span class="x">local   replication     all                                     peer</span>
 <span class="x">host    replication     all             127.0.0.1/32            md5</span>
@@ -209,7 +211,7 @@
 </pre></div>
 
 
-<p>Your <code>postgresql.conf</code> file will need to have the following options set:</p>
+<p>Also, the <code>postgresql.conf</code> file should have the following options set:</p>
 <div class="highlight"><pre><span></span>archive_mode = on
 archive_command = &#39;test ! -f /var/lib/postgresql/pg12_wal/%f &amp;&amp; cp %p /var/lib/postgresql/pg12_wal/%f&#39;
 </pre></div>
@@ -241,7 +243,7 @@ archive_command = &#39;test ! -f /var/lib/postgresql/pg12_wal/%f &amp;&amp; cp %
 </pre></div>
 
 
-<p>The <code>/srv/salt/openstack-db/setup/configure-secondary-for-replication.sls</code> file contains all the states necessary to configure a secondary server for replication.</p>
+<p>Create a file named <code>/srv/salt/openstack-db/setup/configure-secondary-for-replication.sls</code> to contain all the states necessary to configure a secondary server for replication.</p>
 <div class="highlight"><pre><span></span><span class="c1"># This sls file sets up a secondary postgresql server to replicate from the other.</span>
 
 <span class="c1"># require a pillar variable to be passed on command line to override this and actually delete data</span>
@@ -309,7 +311,6 @@ archive_command = &#39;test ! -f /var/lib/postgresql/pg12_wal/%f &amp;&amp; cp %
 <span class="l l-Scalar l-Scalar-Plain">unmask-postgresql</span><span class="p p-Indicator">:</span>
   <span class="l l-Scalar l-Scalar-Plain">service.unmasked</span><span class="p p-Indicator">:</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">postgresql@</span><span class="cp">{{</span> <span class="nv">pg_major_version</span> <span class="cp">}}</span><span class="l l-Scalar l-Scalar-Plain">-main</span>
-
 <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
 </pre></div>
 
@@ -325,14 +326,14 @@ archive_command = &#39;test ! -f /var/lib/postgresql/pg12_wal/%f &amp;&amp; cp %
 
 <h2>Highstating the Servers</h2>
 <p>We are now ready to begin setting up the openstack-db PostgreSQL servers.</p>
-<p>First, we configure the master database server using the states above:</p>
+<p>First, configure the master database server using the states above:</p>
 <div class="highlight"><pre><span></span>salt openstack-db01.res01.example.com state.highstate
 salt openstack-db01.res01.example.com service.restart postgresql
 salt openstack-db01.res01.example.com state.apply openstack-db.setup.create-users-and-grant-privileges
 </pre></div>
 
 
-<p>Next, we configure the secondary database server:</p>
+<p>Next, configure the secondary database server:</p>
 <div class="highlight"><pre><span></span>salt openstack-db02.res01.example.com state.highstate
 salt openstack-db02.res01.example.com service.restart postgresql
 </pre></div>
@@ -365,13 +366,13 @@ salt openstack-db02.res01.example.com service.start postgresql
 <h2>OpenStack DB Replication and Failover</h2>
 <h3>Failing Over: When the Primary Fails or is Shut Down</h3>
 <p>These same states can be used to failover to the secondary in the event of a failure on the master.</p>
-<p>Before failing over to a secondary, please ensure that there is no database traffic being sent to the original master, which would be <code>openstack-db01</code> in our case. </p>
-<p>To failover to the secondary (<code>openstack-db02</code> in our case), simply promote it to become master:</p>
+<p>Before failing over to a secondary, ensure there is no database traffic being sent to the original master, which would be <code>openstack-db01</code> in this case. </p>
+<p>To failover to the secondary (<code>openstack-db02</code> in our case), simply use salt to promote it to become master:</p>
 <div class="highlight"><pre><span></span>salt openstack-db02.res01.example.com cmd.run <span class="s2">&quot;pg_ctlcluster 12 main promote&quot;</span>
 </pre></div>
 
 
-<p>Verify that <code>openstack-db02.res01.example.com</code> is no longer in recovery mode:</p>
+<p>Next, verify that <code>openstack-db02.res01.example.com</code> is no longer in recovery mode:</p>
 <div class="highlight"><pre><span></span>salt openstack-db02.res01.example.com cmd.run <span class="s1">&#39;psql -c &quot;select pg_is_in_recovery();&quot;&#39;</span> <span class="nv">runas</span><span class="o">=</span>postgres
 </pre></div>
 
@@ -385,7 +386,7 @@ salt openstack-db02.res01.example.com service.start postgresql
 </pre></div>
 
 
-<p>You have now failed over to <code>openstack-db02.res01.example.com</code> and it is acting as master. Make sure that your database traffic is now being sent to this new master.</p>
+<p>We have now failed over to <code>openstack-db02.res01.example.com</code> and it is acting as master. Ensure database traffic is now being sent to this new master.</p>
 <h3>Failing Back: Promoting the Original Primary Back to Master</h3>
 <p>Once the original primary openstack-db server (<code>openstack-db01</code>) is back online then we can fail back to it.  Make sure the servers has been fully highstated first:</p>
 <div class="highlight"><pre><span></span>salt openstack-db01.res01.example.com state.highstate
@@ -416,7 +417,7 @@ salt openstack-db01.res01.example.com cmd.run <span class="s2">&quot;pg_ctlclust
 </pre></div>
 
 
-<p>Make sure that your database traffic is now being sent to the original master.</p>
+<p>Ensure database traffic is now being sent to the original master.</p>
 <h3>Reconfiguring openstack-db02 as Secondary</h3>
 <p>We now need to return the <code>openstack-db02.res01.example.com</code> server to the secondary configuration:</p>
 <div class="highlight"><pre><span></span><span class="c1"># change False to True on the pillar line to confirm you want to destroy the datadir</span>
