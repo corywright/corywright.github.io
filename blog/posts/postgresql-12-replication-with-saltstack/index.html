@@ -145,8 +145,9 @@
 
 
 <p>The <code>/srv/salt/openstack-db/files.sls</code> file:</p>
-<div class="highlight"><pre><span></span><span class="x"># The first line sets a &quot;target&quot; string for the mine.get command that follows it, which fetchs a list</span>
-<span class="x"># of the primary ip addresses for any servers in this datacenter where nodetype is set to openstack-db</span>
+<div class="highlight"><pre><span></span><span class="x"># The first line sets a &quot;target&quot; string for the mine.get command that follows it,</span>
+<span class="x"># which fetchs a list of the primary ip addresses for any servers in this datacenter</span>
+<span class="x"># where nodetype is set to openstack-db</span>
 
 <span class="cp">{%</span>- <span class="k">set</span> <span class="nv">_openstack_db_tgt</span> <span class="o">=</span> <span class="s1">&#39;G@nodetype:openstack-db and G@dc:%s&#39;</span><span class="o">|</span><span class="nf">format</span><span class="o">(</span><span class="nv">grains.get</span><span class="o">(</span><span class="s1">&#39;dc&#39;</span><span class="o">))</span> -<span class="cp">%}</span><span class="x"></span>
 <span class="cp">{%</span>- <span class="k">set</span> <span class="nv">openstack_db_ips</span> <span class="o">=</span> <span class="nv">salt</span><span class="o">[</span><span class="s1">&#39;mine.get&#39;</span><span class="o">](</span><span class="nv">_openstack_db_tgt</span><span class="o">,</span> <span class="s1">&#39;network.ip_addrs&#39;</span><span class="o">,</span> <span class="nv">tgt_type</span><span class="o">=</span><span class="s1">&#39;compound&#39;</span><span class="o">)</span><span class="nv">.values</span><span class="o">()</span> <span class="o">|</span> <span class="nf">map</span><span class="o">(</span><span class="s1">&#39;first&#39;</span><span class="o">)</span> -<span class="cp">%}</span><span class="x"></span>
@@ -154,12 +155,7 @@
 <span class="cp">{%</span>- <span class="k">set</span> <span class="nv">pg</span> <span class="o">=</span> <span class="nv">salt.pillar.get</span><span class="o">(</span><span class="s1">&#39;openstack:postgres&#39;</span><span class="o">)</span> -<span class="cp">%}</span><span class="x"></span>
 <span class="cp">{%</span>- <span class="k">set</span> <span class="nv">pg_major_version</span> <span class="o">=</span> <span class="nv">salt.pillar.get</span><span class="o">(</span><span class="s1">&#39;openstack_postgresql_version&#39;</span><span class="o">)</span><span class="nv">.split</span><span class="o">(</span><span class="s1">&#39;+&#39;</span><span class="o">)[</span><span class="m">0</span><span class="o">]</span> -<span class="cp">%}</span><span class="x"></span>
 
-<span class="x">/var/lib/postgresql/backups:</span>
-<span class="x">  file.directory:</span>
-<span class="x">    - user: postgres</span>
-<span class="x">    - group: postgres</span>
-
-<span class="x">/var/lib/postgresql/pg</span><span class="cp">{{</span> <span class="nv">pg_major_version</span><span class="cp">}}</span><span class="x">_wal:</span>
+<span class="x">/var/lib/postgresql/pg</span><span class="cp">{{</span> <span class="nv">pg_major_version</span> <span class="cp">}}</span><span class="x">_wal:</span>
 <span class="x">  file.directory:</span>
 <span class="x">    - user: postgres</span>
 <span class="x">    - group: postgres</span>
@@ -198,9 +194,9 @@
 </pre></div>
 
 
-<p>You'll need to replace the various <code>- source: salt://</code> locations in the above with the paths to your files. </p>
+<p>You'll need to replace the various <code>source: salt://</code> locations in the above with the paths to your files. </p>
 <p>The <code>/var/lib/postgresql/.pgpass</code> state above is critical to states that handle configuring replication as that file is used by the <code>pg_basebackup</code> command to authenticate the secondary to the master.</p>
-<p>Ensure PostgreSQL's <code>pg_hba.conf</code> is configured to allow replication from your database server's ip addresses. The following is a snippet from the <code>salt://openstack-db/etc/postgresql/12/main/pg_hba.conf</code> file referenced above:</p>
+<p>Ensure PostgreSQL's <code>pg_hba.conf</code> is configured to allow replication from your database server's ip addresses. The following is a snippet from the <code>pg_hba.conf</code> file referenced above:</p>
 <div class="highlight"><pre><span></span><span class="x">local   replication     postgres                                peer</span>
 <span class="x">local   replication     all                                     peer</span>
 <span class="x">host    replication     all             127.0.0.1/32            md5</span>
@@ -227,7 +223,7 @@ archive_command = &#39;test ! -f /var/lib/postgresql/pg12_wal/%f &amp;&amp; cp %
 </pre></div>
 
 
-<p>Create a file named <code>/srv/salt/openstack-db/setup/create-users-and-grant-privileges.sls</code> with the following:</p>
+<p>The <code>/srv/salt/openstack-db/setup/create-users-and-grant-privileges.sls</code> file:</p>
 <div class="highlight"><pre><span></span><span class="c1"># this should only be run when initially setting up the primary db in the cluster</span>
 
 <span class="cp">{%</span> <span class="k">set</span> <span class="nv">pg</span> <span class="o">=</span> <span class="nv">salt.pillar.get</span><span class="o">(</span><span class="s1">&#39;openstack:postgres&#39;</span><span class="o">)</span> <span class="cp">%}</span>
@@ -243,13 +239,15 @@ archive_command = &#39;test ! -f /var/lib/postgresql/pg12_wal/%f &amp;&amp; cp %
 </pre></div>
 
 
-<p>Create a file named <code>/srv/salt/openstack-db/setup/configure-secondary-for-replication.sls</code> to contain all the states necessary to configure a secondary server for replication.</p>
+<p>The <code>/srv/salt/openstack-db/setup/configure-secondary-for-replication.sls</code> file contains all the states necessary to configure a secondary server for replication:</p>
 <div class="highlight"><pre><span></span><span class="c1"># This sls file sets up a secondary postgresql server to replicate from the other.</span>
 
-<span class="c1"># require a pillar variable to be passed on command line to override this and actually delete data</span>
+<span class="c1"># Require a pillar variable `yes_destroy_pg_datadir` be set to True on command line </span>
+<span class="c1"># to override this to avoid accidentally deleting data on production database servers.</span>
 <span class="cp">{%</span>- <span class="k">set</span> <span class="nv">confirm_destroy</span> <span class="o">=</span> <span class="nv">pillar.get</span><span class="o">(</span><span class="s1">&#39;yes_destroy_pg_datadir&#39;</span><span class="o">,</span> <span class="kp">False</span><span class="o">)</span> <span class="o">|</span> <span class="nf">to_bool</span> -<span class="cp">%}</span>
 
-<span class="c1"># if we are being executed on db01 then set master to db02, otherwise set master to db01</span>
+<span class="c1"># If we are being executed on openstack-db01 then set master to openstack-db02,</span>
+<span class="c1"># otherwise default setting master to openstack-db01</span>
 <span class="cp">{%</span>- <span class="k">set</span> <span class="nv">other_nodenumber</span> <span class="o">=</span> <span class="m">2</span> <span class="k">if</span> <span class="nv">grains.get</span><span class="o">(</span><span class="s1">&#39;nodenumber&#39;</span><span class="o">)</span> <span class="o">==</span> <span class="m">1</span> <span class="k">else</span> <span class="m">1</span> -<span class="cp">%}</span>
 <span class="cp">{%</span>- <span class="k">set</span> <span class="nv">_db_master</span> <span class="o">=</span> <span class="s1">&#39;G@nodetype:openstack-db and G@nodenumber:%s and G@dc:%s&#39;</span><span class="o">|</span><span class="nf">format</span><span class="o">(</span><span class="nv">other_nodenumber</span><span class="o">,</span> <span class="nv">grains.get</span><span class="o">(</span><span class="s1">&#39;dc&#39;</span><span class="o">))</span> -<span class="cp">%}</span>
 <span class="cp">{%</span>- <span class="k">set</span> <span class="nv">db_master</span> <span class="o">=</span> <span class="nv">salt</span><span class="o">[</span><span class="s1">&#39;mine.get&#39;</span><span class="o">](</span><span class="nv">_db_master</span><span class="o">,</span> <span class="s1">&#39;network.ip_addrs&#39;</span><span class="o">,</span> <span class="nv">tgt_type</span><span class="o">=</span><span class="s1">&#39;compound&#39;</span><span class="o">)</span><span class="nv">.values</span><span class="o">()</span> <span class="o">|</span> <span class="nf">map</span><span class="o">(</span><span class="s1">&#39;first&#39;</span><span class="o">)</span> <span class="o">|</span> <span class="nf">list</span> <span class="o">|</span> <span class="nf">first</span> -<span class="cp">%}</span>
@@ -257,7 +255,6 @@ archive_command = &#39;test ! -f /var/lib/postgresql/pg12_wal/%f &amp;&amp; cp %
 <span class="cp">{%</span>- <span class="k">set</span> <span class="nv">pg_major_version</span> <span class="o">=</span> <span class="nv">salt.pillar.get</span><span class="o">(</span><span class="s1">&#39;openstack_postgresql_version&#39;</span><span class="o">)</span><span class="nv">.split</span><span class="o">(</span><span class="s1">&#39;+&#39;</span><span class="o">)[</span><span class="m">0</span><span class="o">]</span> -<span class="cp">%}</span>
 <span class="cp">{%</span>- <span class="k">set</span> <span class="nv">pg</span> <span class="o">=</span> <span class="nv">salt.pillar.get</span><span class="o">(</span><span class="s1">&#39;openstack:postgres&#39;</span><span class="o">)</span> -<span class="cp">%}</span>
 
-<span class="c1"># require that confirm_delivery is set on the command line to avoid accidentally deleting data</span>
 <span class="cp">{%</span> <span class="k">if</span> <span class="nv">grains.get</span><span class="o">(</span><span class="s1">&#39;nodetype&#39;</span><span class="o">)</span> <span class="o">==</span> <span class="s1">&#39;openstack-db&#39;</span> <span class="k">and</span> <span class="nv">confirm_destroy</span> <span class="cp">%}</span>
 
 <span class="l l-Scalar l-Scalar-Plain">include</span><span class="p p-Indicator">:</span>
@@ -340,6 +337,7 @@ salt openstack-db02.res01.example.com service.restart postgresql
 
 
 <p>Finally, configure the secondary for replication:</p>
+<p>Note: On the next line change <code>False</code> to <code>True</code> at the end of the line in the pillar data. This is a safeguard so that the command is only run when you really want to destroy the data directory. Be sure to include the extra whitespace at the beginning of the command to <a href="/blog/posts/avoiding-adding-commands-to-bash-history/">prevent it from being saved</a> to <code>~/.bash_history</code>.</p>
 <div class="highlight"><pre><span></span><span class="c1"># change False to True on the pillar line to confirm you want to destroy the datadir</span>
  salt openstack-db02.res01.example.com state.apply <span class="se">\</span>
         openstack-db.setup.configure-secondary-for-replication <span class="se">\</span>
@@ -348,7 +346,7 @@ salt openstack-db02.res01.example.com service.start postgresql
 </pre></div>
 
 
-<p>Check that replication is working, run this on <code>openstack-db02</code>, you should see <code>t</code> as the result of the following command:</p>
+<p>To verify that replication is working run the following command on the salt-master. You should see <code>t</code> as the result of the following command:</p>
 <div class="highlight"><pre><span></span>salt openstack-db02.res01.example.com cmd.run <span class="s1">&#39;psql -c &quot;select pg_is_in_recovery();&quot;&#39;</span> <span class="nv">runas</span><span class="o">=</span>postgres
 </pre></div>
 
@@ -394,7 +392,6 @@ salt openstack-db02.res01.example.com service.start postgresql
 
 
 <p><strong>The next step will DESTROY the database directory on the original primary so be careful and follow the directions exactly.</strong></p>
-<p>On the next line change <code>False</code> to <code>True</code> at the end of the line in the pillar data. This is a safeguard so that the command is only run when you really want to destroy the data directory. Be sure to include the extra whitespace at the beginning of the command to <a href="/blog/posts/avoiding-adding-commands-to-bash-history/">prevent it from being saved</a> to <code>~/.bash_history</code>.</p>
 <div class="highlight"><pre><span></span><span class="c1"># change False to True on the pillar line to confirm you want to destroy the datadir</span>
  salt openstack-db01.res01.example.com state.apply <span class="se">\</span>
         openstack-db.setup.configure-secondary-for-replication <span class="se">\</span>
