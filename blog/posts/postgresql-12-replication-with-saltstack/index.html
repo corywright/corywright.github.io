@@ -78,8 +78,7 @@
   <article>
     <h2 class="post_title post_detail"><a href="https://www.corywright.org/blog/posts/postgresql-12-replication-with-saltstack/" rel="bookmark" title="Permalink to Configuring PostgreSQL 12 Replication with SaltStack">Configuring PostgreSQL 12 Replication with SaltStack</a></h2>
     <div class="entry-content blog-post">
-      <h1>Configuring PostgreSQL 12 Replication with SaltStack</h1>
-<p>Today I saw <a href="https://www.reddit.com/r/saltstack/comments/fqsw4e/postgresql_12_replication_saltstack/">a post</a> on the <a href="https://www.reddit.com/r/saltstack/">/r/saltstack</a> subreddit asking for help setting up replication for PostgreSQL 12 using SaltStack. I recently had to solve the same problem for our OpenStack clusters at my employer, <a href="https://www.iland.com/">iland Cloud</a>, so I thought it may be helpful to share what we built.</p>
+      <p>Today I saw <a href="https://www.reddit.com/r/saltstack/comments/fqsw4e/postgresql_12_replication_saltstack/">a post</a> on the <a href="https://www.reddit.com/r/saltstack/">/r/saltstack</a> subreddit asking for help setting up replication for PostgreSQL 12 using SaltStack. I recently had to solve the same problem for our OpenStack clusters at my employer, <a href="https://www.iland.com/">iland Cloud</a>, so I thought it may be helpful to share what we built.</p>
 <p>I'll provide all of the necessary states to set up PostgreSQL, as well as the states used to configure replication. All of these states were written for deployment on Ubuntu 18.04 running SaltStack 2019.2.3.</p>
 <p>This blog post assumes two database servers per cluster:</p>
 <ol>
