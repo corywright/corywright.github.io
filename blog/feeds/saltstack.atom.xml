@@ -66,52 +66,52 @@
 
 
 &lt;p&gt;The &lt;code&gt;/srv/salt/openstack-db/files.sls&lt;/code&gt; file:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;# The first line sets a &amp;quot;target&amp;quot; string for the mine.get command that follows it,&lt;/span&gt;
-&lt;span class="x"&gt;# which fetchs a list of the primary ip addresses for any servers in this datacenter&lt;/span&gt;
-&lt;span class="x"&gt;# where nodetype is set to openstack-db&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# The first line sets a &amp;quot;target&amp;quot; string for the mine.get command that follows it,&lt;/span&gt;
+&lt;span class="c1"&gt;# which fetchs a list of the primary ip addresses for any servers in this datacenter&lt;/span&gt;
+&lt;span class="c1"&gt;# where nodetype is set to openstack-db&lt;/span&gt;
 
-&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;_openstack_db_tgt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;G@nodetype:openstack-db and G@dc:%s&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="nf"&gt;format&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;grains.get&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;dc&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
-&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;openstack_db_ips&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;salt&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;mine.get&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="nv"&gt;_openstack_db_tgt&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;network.ip_addrs&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;tgt_type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;compound&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;.values&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="nf"&gt;map&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;first&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;_openstack_db_tgt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;G@nodetype:openstack-db and G@dc:%s&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="nf"&gt;format&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;grains.get&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;dc&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;openstack_db_ips&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;salt&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;mine.get&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="nv"&gt;_openstack_db_tgt&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;network.ip_addrs&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;tgt_type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;compound&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;.values&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="nf"&gt;map&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;first&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;
 
-&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;pg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;salt.pillar.get&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;openstack:postgres&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
-&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;pg_major_version&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;salt.pillar.get&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;openstack_postgresql_version&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;.split&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;+&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)[&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;pg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;salt.pillar.get&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;openstack:postgres&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;pg_major_version&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;salt.pillar.get&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;openstack_postgresql_version&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;.split&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;+&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)[&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;
 
-&lt;span class="x"&gt;/var/lib/postgresql/pg&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;pg_major_version&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;_wal:&lt;/span&gt;
-&lt;span class="x"&gt;  file.directory:&lt;/span&gt;
-&lt;span class="x"&gt;    - user: postgres&lt;/span&gt;
-&lt;span class="x"&gt;    - group: postgres&lt;/span&gt;
-&lt;span class="x"&gt;    - mode: 0750&lt;/span&gt;
-&lt;span class="x"&gt;    - require:&lt;/span&gt;
-&lt;span class="x"&gt;      - pkg: postgresql&lt;/span&gt;
-&lt;span class="x"&gt;    - listen_in:&lt;/span&gt;
-&lt;span class="x"&gt;      - service: service-postgresql&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;/var/lib/postgresql/pg&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;pg_major_version&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;_wal&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;file.directory&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;user&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;postgres&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;group&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;postgres&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;mode&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;0750&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;require&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;pkg&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;postgresql&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;listen_in&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;service&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;service-postgresql&lt;/span&gt;
 
-&lt;span class="x"&gt;/etc/postgresql/12/main/postgresql.conf:&lt;/span&gt;
-&lt;span class="x"&gt;  file.managed:&lt;/span&gt;
-&lt;span class="x"&gt;    - source: salt://openstack-db/etc/postgresql/12/main/postgresql.conf&lt;/span&gt;
-&lt;span class="x"&gt;    - require:&lt;/span&gt;
-&lt;span class="x"&gt;      - pkg: postgresql&lt;/span&gt;
-&lt;span class="x"&gt;    - listen_in:&lt;/span&gt;
-&lt;span class="x"&gt;      - service: service-postgresql&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;/etc/postgresql/12/main/postgresql.conf&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;file.managed&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;source&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;salt://openstack-db/etc/postgresql/12/main/postgresql.conf&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;require&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;pkg&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;postgresql&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;listen_in&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;service&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;service-postgresql&lt;/span&gt;
 
-&lt;span class="x"&gt;/etc/postgresql/12/main/pg_hba.conf:&lt;/span&gt;
-&lt;span class="x"&gt;  file.managed:&lt;/span&gt;
-&lt;span class="x"&gt;    - source: salt://openstack-db/etc/postgresql/12/main/pg_hba.conf&lt;/span&gt;
-&lt;span class="x"&gt;    - template: jinja&lt;/span&gt;
-&lt;span class="x"&gt;    - require:&lt;/span&gt;
-&lt;span class="x"&gt;      - pkg: postgresql&lt;/span&gt;
-&lt;span class="x"&gt;    - listen_in:&lt;/span&gt;
-&lt;span class="x"&gt;      - service: service-postgresql&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;/etc/postgresql/12/main/pg_hba.conf&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;file.managed&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;source&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;salt://openstack-db/etc/postgresql/12/main/pg_hba.conf&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;template&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;jinja&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;require&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;pkg&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;postgresql&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;listen_in&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;service&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;service-postgresql&lt;/span&gt;
 
-&lt;span class="x"&gt;/var/lib/postgresql/.pgpass:&lt;/span&gt;
-&lt;span class="x"&gt;  file.managed:&lt;/span&gt;
-&lt;span class="x"&gt;    - contents:&lt;/span&gt;
-&lt;span class="x"&gt;      &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nv"&gt;openstack_db_ip&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;openstack_db_ips&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
-&lt;span class="x"&gt;      - &lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;openstack_db_ip&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;:5432:*:&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;pg.repl_username&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;:&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;pg.repl_password&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
-&lt;span class="x"&gt;      &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endfor&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
-&lt;span class="x"&gt;    - user: postgres&lt;/span&gt;
-&lt;span class="x"&gt;    - group: postgres&lt;/span&gt;
-&lt;span class="x"&gt;    - mode: 600&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;/var/lib/postgresql/.pgpass&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;file.managed&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;contents&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+      &lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nv"&gt;openstack_db_ip&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;openstack_db_ips&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;openstack_db_ip&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;:5432:*:&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;pg.repl_username&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;pg.repl_password&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;
+      &lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endfor&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;user&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;postgres&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;group&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;postgres&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;mode&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;600&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
