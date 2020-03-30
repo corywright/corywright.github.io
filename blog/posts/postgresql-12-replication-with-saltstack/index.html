@@ -418,7 +418,7 @@ salt openstack-db01.res01.example.com cmd.run <span class="s2">&quot;pg_ctlclust
 <h3>Reconfiguring openstack-db02 as Secondary</h3>
 <p>We now need to return the <code>openstack-db02.res01.example.com</code> server to the secondary configuration:</p>
 <div class="highlight"><pre><span></span><span class="c1"># change False to True on the pillar line to confirm you want to destroy the datadir</span>
-salt openstack-db02.res01.example.com state.apply <span class="se">\</span>
+ salt openstack-db02.res01.example.com state.apply <span class="se">\</span>
         openstack-db.setup.configure-secondary-for-replication <span class="se">\</span>
         <span class="nv">pillar</span><span class="o">=</span><span class="s1">&#39;{&quot;yes_destroy_pg_datadir&quot;: &quot;False&quot;}&#39;</span>
 salt openstack-db02.res01.example.com service.start postgresql
