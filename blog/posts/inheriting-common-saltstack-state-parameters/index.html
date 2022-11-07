@@ -9,6 +9,7 @@
   <meta name="author" content="Cory Wright">
 
   <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="me" href="https://fosstodon.org/@corywright">
 
   <!-- schema.org -->
   <meta itemprop="name" content="corywright.org">
@@ -39,6 +40,7 @@
 <!-- Facebook Meta Data -->
 <meta property="og:title" content="corywright.org - Inheriting Common SaltStack State Parameters" />
 <meta property="og:description" content="A simple way to inherit parameters from other salt states" />
+
 </head>
 
 <body>
@@ -61,7 +63,7 @@
 
 
         <li><a class="nav__link" href="/">Home</a></li>
-<li><a class="nav__link" href="https://www.corywright.org/about/">About</a></li><li><a class="nav__link" href="https://www.corywright.org/resume/">Resume</a></li>        <li><a class="nav__link" href="/blog/">Blog</a></li>
+        <li><a class="nav__link" href="/blog/">Blog</a></li>
       </ul>
     </nav>
 
@@ -79,41 +81,41 @@
     <h2 class="post_title post_detail"><a href="https://www.corywright.org/blog/posts/inheriting-common-saltstack-state-parameters/" rel="bookmark" title="Permalink to Inheriting Common SaltStack State Parameters">Inheriting Common SaltStack State Parameters</a></h2>
     <div class="entry-content blog-post">
       <p>There is a simple way to inherit parameters from another state:</p>
-<div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">set</span> <span class="nv">os</span> <span class="o">=</span> <span class="nv">salt</span><span class="o">[</span><span class="s1">&#39;pillar.get&#39;</span><span class="o">](</span><span class="s1">&#39;openstack:auth&#39;</span><span class="o">)</span> <span class="cp">%}</span>
-<span class="l l-Scalar l-Scalar-Plain">set-openstack-params</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">cmd.run</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&#39;:&#39;</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">runas</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">keystone</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">env</span><span class="p p-Indicator">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">OS_USERNAME</span><span class="p p-Indicator">:</span> <span class="cp">{{</span> <span class="nv">os.username</span> <span class="cp">}}</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">OS_PASSWORD</span><span class="p p-Indicator">:</span> <span class="cp">{{</span> <span class="nv">os.password</span> <span class="cp">}}</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">OS_PROJECT_NAME</span><span class="p p-Indicator">:</span> <span class="cp">{{</span> <span class="nv">os.project_name</span> <span class="cp">}}</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">OS_AUTH_URL</span><span class="p p-Indicator">:</span> <span class="cp">{{</span> <span class="nv">os.auth_url</span> <span class="cp">}}</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">OS_IDENTITY_API_VERSION</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">OS_AUTH_VERSION</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
+<div class="highlight"><pre><span></span><code><span class="cp">{%</span> <span class="k">set</span> <span class="nv">os</span> <span class="o">=</span> <span class="nv">salt</span><span class="o">[</span><span class="s1">&#39;pillar.get&#39;</span><span class="o">](</span><span class="s1">&#39;openstack:auth&#39;</span><span class="o">)</span> <span class="cp">%}</span><span class="w"></span>
+<span class="nt">set-openstack-params</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">cmd.run</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;:&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">runas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">keystone</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">env</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">OS_USERNAME</span><span class="p">:</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">os.username</span> <span class="cp">}}</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">OS_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">os.password</span> <span class="cp">}}</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">OS_PROJECT_NAME</span><span class="p">:</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">os.project_name</span> <span class="cp">}}</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">OS_AUTH_URL</span><span class="p">:</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">os.auth_url</span> <span class="cp">}}</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">OS_IDENTITY_API_VERSION</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">OS_AUTH_VERSION</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w"></span>
 
-<span class="l l-Scalar l-Scalar-Plain">create-service-role</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">cmd.run</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">openstack role create service</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">use</span><span class="p p-Indicator">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cmd</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">set-openstack-params</span>
+<span class="nt">create-service-role</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">cmd.run</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openstack role create service</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">use</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">set-openstack-params</span><span class="w"></span>
 
-<span class="l l-Scalar l-Scalar-Plain">create-object-store-service</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">cmd.run</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">|</span>
-        <span class="no">openstack service create \</span>
-          <span class="no">--name swift \</span>
-          <span class="no">--description &quot;Swift Object Storage Service&quot; \</span>
-          <span class="no">object-store</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">use</span><span class="p p-Indicator">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cmd</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">set-openstack-params</span>
+<span class="nt">create-object-store-service</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">cmd.run</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
+<span class="w">        </span><span class="no">openstack service create \</span><span class="w"></span>
+<span class="w">          </span><span class="no">--name swift \</span><span class="w"></span>
+<span class="w">          </span><span class="no">--description &quot;Swift Object Storage Service&quot; \</span><span class="w"></span>
+<span class="w">          </span><span class="no">object-store</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">use</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">set-openstack-params</span><span class="w"></span>
 
-<span class="l l-Scalar l-Scalar-Plain">create-service-project</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">cmd.run</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">openstack project create service</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">use</span><span class="p p-Indicator">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cmd</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">set-openstack-params</span>
-</pre></div>
+<span class="nt">create-service-project</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">cmd.run</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openstack project create service</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">use</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">set-openstack-params</span><span class="w"></span>
+</code></pre></div>
     </div>
     <div class="post_list">
       <span> Posted in </span>

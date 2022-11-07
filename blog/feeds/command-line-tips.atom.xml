@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>corywright.org</title><link href="https://www.corywright.org/" rel="alternate"></link><link href="https://www.corywright.org/blog/feeds/command-line-tips.atom.xml" rel="self"></link><id>https://www.corywright.org/</id><updated>2018-08-13T09:36:00-04:00</updated><entry><title>Redirecting stderr to stdout in Bash 4</title><link href="https://www.corywright.org/blog/posts/redirecting-stdout-and-stderr-in-bash/" rel="alternate"></link><published>2018-08-13T09:36:00-04:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2018-08-09:blog/posts/redirecting-stdout-and-stderr-in-bash/</id><summary type="html">&lt;p&gt;It's common when writing shell scripts or running cronjobs to want to merge standout error (file descriptor 2) with standard output (file descriptor 1) and write it to a file or &lt;code&gt;/dev/null&lt;/code&gt;. The traditional way in shell scripts to redirect stderr to stdout looks like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ somecommand &amp;gt; /dev/null 2&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;1
-&lt;/pre&gt;&lt;/div&gt;
-
+<feed xmlns="http://www.w3.org/2005/Atom"><title>corywright.org - Command Line Tips</title><link href="https://www.corywright.org/" rel="alternate"></link><link href="https://www.corywright.org/blog/feeds/command-line-tips.atom.xml" rel="self"></link><id>https://www.corywright.org/</id><updated>2018-08-13T09:36:00-04:00</updated><entry><title>Redirecting stderr to stdout in Bash 4</title><link href="https://www.corywright.org/blog/posts/redirecting-stdout-and-stderr-in-bash/" rel="alternate"></link><published>2018-08-09T09:36:00-04:00</published><updated>2018-08-13T09:36:00-04:00</updated><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2018-08-09:/blog/posts/redirecting-stdout-and-stderr-in-bash/</id><summary type="html">&lt;p&gt;Redirecting Standard Error to Standard Output in Bash 4&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's common when writing shell scripts or running cronjobs to want to merge standout error (file descriptor 2) with standard output (file descriptor 1) and write it to a file or &lt;code&gt;/dev/null&lt;/code&gt;. The traditional way in shell scripts to redirect stderr to stdout looks like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ somecommand &amp;gt; /dev/null &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;However, Bash 4 introduced an additional, &lt;a href="https://www.gnu.org/software/bash/manual/bash.html#Redirecting-Standard-Output-and-Standard-Error"&gt;simpler syntax&lt;/a&gt; for accomplishing this and it's slightly easier to remember.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ somecommand &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt; /dev/null
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ somecommand &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt; /dev/null
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
-&lt;p&gt;Of course, the older syntax is still valid in Bash 4 and will likely always be supported.&lt;/p&gt;</summary><category term="bash commandline"></category></entry><entry><title>Avoiding Adding Commands to Bash History</title><link href="https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/" rel="alternate"></link><published>2018-02-15T15:40:00-05:00</published><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2018-02-15:blog/posts/avoiding-adding-commands-to-bash-history/</id><summary type="html">&lt;p&gt;It's generally a bad idea to enter passwords on the command line, because other processes can see these passwords in various places and also because, by default, your command history is saved into a &lt;code&gt;~/.bash_history&lt;/code&gt; file in your home directory after you exit your shell session.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
+&lt;p&gt;Of course, the older syntax is still valid in Bash 4 and will likely always be supported.&lt;/p&gt;</content><category term="Command Line Tips"></category><category term="bash commandline"></category></entry><entry><title>Avoiding Adding Commands to Bash History</title><link href="https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/" rel="alternate"></link><published>2018-02-15T15:40:00-05:00</published><updated>2018-02-15T15:40:00-05:00</updated><author><name>Cory Wright</name></author><id>tag:www.corywright.org,2018-02-15:/blog/posts/avoiding-adding-commands-to-bash-history/</id><summary type="html">&lt;p&gt;Avoiding Adding Commands to Bash History&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's generally a bad idea to enter passwords on the command line, because other processes can see these passwords in various places and also because, by default, your command history is saved into a &lt;code&gt;~/.bash_history&lt;/code&gt; file in your home directory after you exit your shell session.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
 Authenticating user &lt;span class="s2"&gt;&amp;quot;openstack&amp;quot;&lt;/span&gt; ...
 Success
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Unfortunately, &lt;code&gt;SomeS3cretPassword&lt;/code&gt; will be recorded in &lt;code&gt;~/.bash_history&lt;/code&gt;. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep rabbitmqctl
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep rabbitmqctl
    &lt;span class="m"&gt;67&lt;/span&gt;  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
    &lt;span class="m"&gt;68&lt;/span&gt;  &lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep rabbitmqctl
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;There is a way to avoid this -- simply add one or more blank spaces to the beginning of the command:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
 Authenticating user &lt;span class="s2"&gt;&amp;quot;openstack&amp;quot;&lt;/span&gt; ...
 Success
 $ &lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep rabbitmqctl
    &lt;span class="m"&gt;68&lt;/span&gt;  &lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep rabbitmqctl
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
-&lt;p&gt;Notice the extra space between &lt;code&gt;$&lt;/code&gt; and &lt;code&gt;sudo&lt;/code&gt; in the first line above.&lt;/p&gt;</summary><category term="bash commandline"></category></entry></feed>
+&lt;p&gt;Notice the extra space between &lt;code&gt;$&lt;/code&gt; and &lt;code&gt;sudo&lt;/code&gt; in the first line above.&lt;/p&gt;</content><category term="Command Line Tips"></category><category term="bash commandline"></category></entry></feed>

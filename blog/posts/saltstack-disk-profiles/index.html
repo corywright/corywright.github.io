@@ -9,6 +9,7 @@
   <meta name="author" content="Cory Wright">
 
   <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="me" href="https://fosstodon.org/@corywright">
 
   <!-- schema.org -->
   <meta itemprop="name" content="corywright.org">
@@ -39,6 +40,7 @@
 <!-- Facebook Meta Data -->
 <meta property="og:title" content="corywright.org - Handling Different Hardware Disk Configs" />
 <meta property="og:description" content="testing blog generation" />
+
 </head>
 
 <body>
@@ -61,7 +63,7 @@
 
 
         <li><a class="nav__link" href="/">Home</a></li>
-<li><a class="nav__link" href="https://www.corywright.org/about/">About</a></li><li><a class="nav__link" href="https://www.corywright.org/resume/">Resume</a></li>        <li><a class="nav__link" href="/blog/">Blog</a></li>
+        <li><a class="nav__link" href="/blog/">Blog</a></li>
       </ul>
     </nav>
 
@@ -79,19 +81,19 @@
     <h2 class="post_title post_detail"><a href="https://www.corywright.org/blog/posts/saltstack-disk-profiles/" rel="bookmark" title="Permalink to Handling Different Hardware Disk Configs">Handling Different Hardware Disk Configs</a></h2>
     <div class="entry-content blog-post">
       <p>How to handle different disk partitioning and raid across disparate hardware:</p>
-<div class="highlight"><pre><span></span><span class="c1"># salt/storage/disks.sls</span>
-<span class="cp">{%</span>- <span class="k">set</span> <span class="nv">hardware</span> <span class="o">=</span> <span class="nv">grains.get</span><span class="o">(</span><span class="s1">&#39;productname&#39;</span><span class="o">,</span><span class="s1">&#39;&#39;</span><span class="o">)</span> <span class="cp">%}</span>
-<span class="cp">{%</span>- <span class="k">set</span> <span class="nv">is_virtual</span> <span class="o">=</span> <span class="nv">grains.get</span><span class="o">(</span><span class="s1">&#39;virtual&#39;</span><span class="o">,</span><span class="s1">&#39;&#39;</span><span class="o">)</span> <span class="p">!</span><span class="o">=</span> <span class="s1">&#39;physical&#39;</span> <span class="cp">%}</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># salt/storage/disks.sls</span><span class="w"></span>
+<span class="cp">{%</span>- <span class="k">set</span> <span class="nv">hardware</span> <span class="o">=</span> <span class="nv">grains.get</span><span class="o">(</span><span class="s1">&#39;productname&#39;</span><span class="o">,</span><span class="s1">&#39;&#39;</span><span class="o">)</span> <span class="cp">%}</span><span class="w"></span>
+<span class="cp">{%</span>- <span class="k">set</span> <span class="nv">is_virtual</span> <span class="o">=</span> <span class="nv">grains.get</span><span class="o">(</span><span class="s1">&#39;virtual&#39;</span><span class="o">,</span><span class="s1">&#39;&#39;</span><span class="o">)</span> <span class="o">!=</span> <span class="s1">&#39;physical&#39;</span> <span class="cp">%}</span><span class="w"></span>
 
-<span class="l l-Scalar l-Scalar-Plain">include</span><span class="p p-Indicator">:</span>
-  <span class="cp">{%</span> <span class="k">if</span> <span class="nv">hardware</span> <span class="o">==</span> <span class="s1">&#39;ProLiant DL380 Gen9&#39;</span> <span class="cp">%}</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">storage.disks.hp</span>
-  <span class="cp">{%</span> <span class="k">elif</span> <span class="nv">hardware</span> <span class="o">==</span> <span class="s1">&#39;PowerEdge R515&#39;</span> <span class="cp">%}</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">storage.disks.dell</span>
-  <span class="cp">{%</span> <span class="k">elif</span> <span class="nv">is_virtual</span> <span class="cp">%}</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">storage.disks.virtual</span>
-  <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
-</pre></div>
+<span class="nt">include</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">hardware</span> <span class="o">==</span> <span class="s1">&#39;ProLiant DL380 Gen9&#39;</span> <span class="cp">%}</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">storage.disks.hp</span><span class="w"></span>
+<span class="w">  </span><span class="cp">{%</span> <span class="k">elif</span> <span class="nv">hardware</span> <span class="o">==</span> <span class="s1">&#39;PowerEdge R515&#39;</span> <span class="cp">%}</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">storage.disks.dell</span><span class="w"></span>
+<span class="w">  </span><span class="cp">{%</span> <span class="k">elif</span> <span class="nv">is_virtual</span> <span class="cp">%}</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">storage.disks.virtual</span><span class="w"></span>
+<span class="w">  </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="w"></span>
+</code></pre></div>
     </div>
     <div class="post_list">
       <span> Posted in </span>

@@ -9,6 +9,7 @@
   <meta name="author" content="Cory Wright">
 
   <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="me" href="https://fosstodon.org/@corywright">
 
   <!-- schema.org -->
   <meta itemprop="name" content="corywright.org">
@@ -39,6 +40,7 @@
 <!-- Facebook Meta Data -->
 <meta property="og:title" content="corywright.org - Avoiding Adding Commands to Bash History" />
 <meta property="og:description" content="Avoiding Adding Commands to Bash History" />
+
 </head>
 
 <body>
@@ -61,7 +63,7 @@
 
 
         <li><a class="nav__link" href="/">Home</a></li>
-<li><a class="nav__link" href="https://www.corywright.org/about/">About</a></li><li><a class="nav__link" href="https://www.corywright.org/resume/">Resume</a></li>        <li><a class="nav__link" href="/blog/">Blog</a></li>
+        <li><a class="nav__link" href="/blog/">Blog</a></li>
       </ul>
     </nav>
 
@@ -79,27 +81,24 @@
     <h2 class="post_title post_detail"><a href="https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/" rel="bookmark" title="Permalink to Avoiding Adding Commands to Bash History">Avoiding Adding Commands to Bash History</a></h2>
     <div class="entry-content blog-post">
       <p>It's generally a bad idea to enter passwords on the command line, because other processes can see these passwords in various places and also because, by default, your command history is saved into a <code>~/.bash_history</code> file in your home directory after you exit your shell session.</p>
-<div class="highlight"><pre><span></span>$ sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
+<div class="highlight"><pre><span></span><code>$ sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
 Authenticating user <span class="s2">&quot;openstack&quot;</span> ...
 Success
-</pre></div>
-
+</code></pre></div>
 
 <p>Unfortunately, <code>SomeS3cretPassword</code> will be recorded in <code>~/.bash_history</code>. </p>
-<div class="highlight"><pre><span></span>$ <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
+<div class="highlight"><pre><span></span><code>$ <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
    <span class="m">67</span>  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
    <span class="m">68</span>  <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
-</pre></div>
-
+</code></pre></div>
 
 <p>There is a way to avoid this -- simply add one or more blank spaces to the beginning of the command:</p>
-<div class="highlight"><pre><span></span>$  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
+<div class="highlight"><pre><span></span><code>$  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
 Authenticating user <span class="s2">&quot;openstack&quot;</span> ...
 Success
 $ <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
    <span class="m">68</span>  <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
-</pre></div>
-
+</code></pre></div>
 
 <p>Notice the extra space between <code>$</code> and <code>sudo</code> in the first line above.</p>
     </div>
