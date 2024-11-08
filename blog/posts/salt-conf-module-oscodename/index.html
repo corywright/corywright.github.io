@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <!-- Site Meta Data -->
-  <title>Cory Wright - Blog - salt-conf-module-oscodename</title>
+  <title>Cory Wright - Blog - Using pillar subkeys based on oscodename</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="Cory Wright">
@@ -34,11 +34,11 @@
   <meta property="og:image" content="https://www.corywright.org/images/twitter-image-192x192.jpg">
 
 <meta name="twitter:url" content="https://www.corywright.org/blog/posts/salt-conf-module-oscodename/">
-<meta name="twitter:title" content="corywright.org - salt-conf-module-oscodename">
+<meta name="twitter:title" content="corywright.org - Using pillar subkeys based on oscodename">
 <meta name="twitter:description" content="summarize salt-conf-module-oscodename">
 
 <!-- Facebook Meta Data -->
-<meta property="og:title" content="corywright.org - salt-conf-module-oscodename" />
+<meta property="og:title" content="corywright.org - Using pillar subkeys based on oscodename" />
 <meta property="og:description" content="summarize salt-conf-module-oscodename" />
 
 </head>
@@ -78,29 +78,31 @@
   <article>
 <section id="content">
   <article>
-    <h2 class="post_title post_detail"><a href="https://www.corywright.org/blog/posts/salt-conf-module-oscodename/" rel="bookmark" title="Permalink to salt-conf-module-oscodename">salt-conf-module-oscodename</a></h2>
+    <h2 class="post_title post_detail"><a href="https://www.corywright.org/blog/posts/salt-conf-module-oscodename/" rel="bookmark" title="Permalink to Using pillar subkeys based on oscodename">Using pillar subkeys based on oscodename</a></h2>
     <div class="entry-content blog-post">
       <p>I've found that I often want to maintain a single Pillar variable but with different values depending on the version of the operating system.  </p>
 <p>For example, we use Salt to track versions of the software we install, including the salt-minion itself, and need to have a different version depending on the os that it will be installed on.</p>
 <p>This is the pillar file:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">salt_version</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">xenial</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2019.2.4+ds-1</span>
-<span class="w">  </span><span class="nt">bionic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2019.2.4+ds-1</span>
+<span class="w">  </span><span class="nt">focal</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">3004+ds-1</span>
+<span class="w">  </span><span class="nt">jammy</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">3006.9</span>
 </code></pre></div>
 
 <p>And this is the python code that should be saved in your <code>_modules</code> directory. I name this file conf.py:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-    <span class="n">default_opts_pillar_raise_on_missing</span> <span class="o">=</span> <span class="n">__opts__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pillar_raise_on_missing&#39;</span><span class="p">)</span>
-    <span class="n">__opts__</span><span class="p">[</span><span class="s1">&#39;pillar_raise_on_missing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">conf</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
     <span class="n">oscodename</span> <span class="o">=</span> <span class="n">__grains__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;oscodename&#39;</span><span class="p">)</span>
-    <span class="n">key_oscodename</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">oscodename</span><span class="p">])</span> <span class="c1"># ex: package_version:xenial</span>
+    <span class="n">key_oscodename</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">oscodename</span><span class="p">])</span> <span class="c1"># open_vm_tools_version:focal</span>
+
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="n">__salt__</span><span class="p">[</span><span class="s1">&#39;pillar.get&#39;</span><span class="p">](</span><span class="n">key_oscodename</span><span class="p">)</span>
+        <span class="c1"># pillar.keys throws a ValueError if it returns anything other than a dictionary,</span>
+        <span class="c1"># but that is acceptable for us, so we just catch the exception and try again.</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">__salt__</span><span class="p">[</span><span class="s1">&#39;pillar.keys&#39;</span><span class="p">](</span><span class="n">key_oscodename</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">__salt__</span><span class="p">[</span><span class="s1">&#39;pillar.get&#39;</span><span class="p">](</span><span class="n">key_oscodename</span><span class="p">)</span>  <span class="c1"># value would be a dictionary</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">__salt__</span><span class="p">[</span><span class="s1">&#39;pillar.get&#39;</span><span class="p">](</span><span class="n">key_oscodename</span><span class="p">)</span>  <span class="c1"># anything other than a dict</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">__salt__</span><span class="p">[</span><span class="s1">&#39;pillar.get&#39;</span><span class="p">](</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
 
-    <span class="n">__opts__</span><span class="p">[</span><span class="s1">&#39;pillar_raise_on_missing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_opts_pillar_raise_on_missing</span>
     <span class="k">return</span> <span class="n">value</span>
 </code></pre></div>
 
@@ -109,6 +111,8 @@
 <span class="w">  </span><span class="nt">pkg.installed</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">salt.conf.get</span><span class="o">(</span><span class="s1">&#39;salt_version&#39;</span><span class="o">)</span> <span class="cp">}}</span>
 </code></pre></div>
+
+<p>If the server is running Ubuntu 20.04 "focal" then <code>salt.conf.get('salt_version')</code> will return <code>3004+ds-1</code>. If instead the server is running Ubuntu 22.04 "jammy" then <code>salt.conf.get('salt_version')</code> would return <code>3006.9</code>.</p>
     </div>
     <div class="post_list">
       <span> Posted in </span>
@@ -120,15 +124,15 @@
       </div>
       <br>
       <div class="entry-social">
-        <span class="twitter"><a target="_blank" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="Twitter" href="https://twitter.com/share?url=https://www.corywright.org/blog/posts/salt-conf-module-oscodename/&text=salt-conf-module-oscodename&via=corywright"><img src="https://www.corywright.org/theme/images/icons/twitter-s.png"></a></span>
+        <span class="twitter"><a target="_blank" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="Twitter" href="https://twitter.com/share?url=https://www.corywright.org/blog/posts/salt-conf-module-oscodename/&text=Using pillar subkeys based on oscodename&via=corywright"><img src="https://www.corywright.org/theme/images/icons/twitter-s.png"></a></span>
 
         <span class="gplus"><a target="_blank" title="Google +" href="https://plus.google.com/share?url=https://www.corywright.org/blog/posts/salt-conf-module-oscodename/&hl=fr" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="https://www.corywright.org/theme/images/icons/google-s.png"></a></span>
 
-        <span class="facebook"><a target="_blank" title="Facebook" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;" href="https://www.facebook.com/sharer.php?u=https://www.corywright.org/blog/posts/salt-conf-module-oscodename/&t=salt-conf-module-oscodename"><img src="https://www.corywright.org/theme/images/icons/facebook-s.png"></a></span>
+        <span class="facebook"><a target="_blank" title="Facebook" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;" href="https://www.facebook.com/sharer.php?u=https://www.corywright.org/blog/posts/salt-conf-module-oscodename/&t=Using pillar subkeys based on oscodename"><img src="https://www.corywright.org/theme/images/icons/facebook-s.png"></a></span>
 
-        <span class="linkedin"><a  target="_blank" title="Linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.corywright.org/blog/posts/salt-conf-module-oscodename/&title=salt-conf-module-oscodename" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="https://www.corywright.org/theme/images/icons/linkedin-s.png"></a></span>
+        <span class="linkedin"><a  target="_blank" title="Linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.corywright.org/blog/posts/salt-conf-module-oscodename/&title=Using pillar subkeys based on oscodename" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="https://www.corywright.org/theme/images/icons/linkedin-s.png"></a></span>
 
-        <span class="mail"><a href="mailto:?subject=salt-conf-module-oscodename&amp;body=Check out this article by Cory Wright. https://www.corywright.org/blog/posts/salt-conf-module-oscodename/" title="Share by Email" target="_blank"><img src="https://www.corywright.org/theme/images/icons/mail-s.png"></a></span>
+        <span class="mail"><a href="mailto:?subject=Using pillar subkeys based on oscodename&amp;body=Check out this article by Cory Wright. https://www.corywright.org/blog/posts/salt-conf-module-oscodename/" title="Share by Email" target="_blank"><img src="https://www.corywright.org/theme/images/icons/mail-s.png"></a></span>
       </div>
     </div>
     <div class="comments">
