@@ -83,9 +83,9 @@
       <p>I've found that I often want to maintain a single Pillar variable but with different values depending on the version of the operating system.  </p>
 <p>For example, we use Salt to track versions of the software we install, including the salt-minion itself, and need to have a different version depending on the os that it will be installed on.</p>
 <p>This is the pillar file:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">salt_version</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">xenial</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2019.2.4+ds-1</span><span class="w"></span>
-<span class="w">  </span><span class="nt">bionic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2019.2.4+ds-1</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">salt_version</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">xenial</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2019.2.4+ds-1</span>
+<span class="w">  </span><span class="nt">bionic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2019.2.4+ds-1</span>
 </code></pre></div>
 
 <p>And this is the python code that should be saved in your <code>_modules</code> directory. I name this file conf.py:</p>
@@ -105,9 +105,9 @@
 </code></pre></div>
 
 <p>This is the state file:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">salt-minion</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">pkg.installed</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">salt.conf.get</span><span class="o">(</span><span class="s1">&#39;salt_version&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">salt-minion</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pkg.installed</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">salt.conf.get</span><span class="o">(</span><span class="s1">&#39;salt_version&#39;</span><span class="o">)</span> <span class="cp">}}</span>
 </code></pre></div>
     </div>
     <div class="post_list">

@@ -81,23 +81,23 @@
     <h2 class="post_title post_detail"><a href="https://www.corywright.org/blog/posts/avoiding-adding-commands-to-bash-history/" rel="bookmark" title="Permalink to Avoiding Adding Commands to Bash History">Avoiding Adding Commands to Bash History</a></h2>
     <div class="entry-content blog-post">
       <p>It's generally a bad idea to enter passwords on the command line, because other processes can see these passwords in various places and also because, by default, your command history is saved into a <code>~/.bash_history</code> file in your home directory after you exit your shell session.</p>
-<div class="highlight"><pre><span></span><code>$ sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
-Authenticating user <span class="s2">&quot;openstack&quot;</span> ...
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>rabbitmqctl<span class="w"> </span>authenticate_user<span class="w"> </span>openstack<span class="w"> </span>SomeS3cretPassword
+Authenticating<span class="w"> </span>user<span class="w"> </span><span class="s2">&quot;openstack&quot;</span><span class="w"> </span>...
 Success
 </code></pre></div>
 
 <p>Unfortunately, <code>SomeS3cretPassword</code> will be recorded in <code>~/.bash_history</code>. </p>
-<div class="highlight"><pre><span></span><code>$ <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
-   <span class="m">67</span>  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
-   <span class="m">68</span>  <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">history</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>rabbitmqctl
+<span class="w">   </span><span class="m">67</span><span class="w">  </span>sudo<span class="w"> </span>rabbitmqctl<span class="w"> </span>authenticate_user<span class="w"> </span>openstack<span class="w"> </span>SomeS3cretPassword
+<span class="w">   </span><span class="m">68</span><span class="w">  </span><span class="nb">history</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>rabbitmqctl
 </code></pre></div>
 
 <p>There is a way to avoid this -- simply add one or more blank spaces to the beginning of the command:</p>
-<div class="highlight"><pre><span></span><code>$  sudo rabbitmqctl authenticate_user openstack SomeS3cretPassword
-Authenticating user <span class="s2">&quot;openstack&quot;</span> ...
+<div class="highlight"><pre><span></span><code>$<span class="w">  </span>sudo<span class="w"> </span>rabbitmqctl<span class="w"> </span>authenticate_user<span class="w"> </span>openstack<span class="w"> </span>SomeS3cretPassword
+Authenticating<span class="w"> </span>user<span class="w"> </span><span class="s2">&quot;openstack&quot;</span><span class="w"> </span>...
 Success
-$ <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
-   <span class="m">68</span>  <span class="nb">history</span> <span class="p">|</span> grep rabbitmqctl
+$<span class="w"> </span><span class="nb">history</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>rabbitmqctl
+<span class="w">   </span><span class="m">68</span><span class="w">  </span><span class="nb">history</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>rabbitmqctl
 </code></pre></div>
 
 <p>Notice the extra space between <code>$</code> and <code>sudo</code> in the first line above.</p>
