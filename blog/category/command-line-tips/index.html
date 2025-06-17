@@ -52,8 +52,22 @@
 </head>
 
 <body>
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <div class="mobile-header-content">
+      <div class="mobile-logo">
+        <div id="avatar-mobile"></div>
+      </div>
+      <button class="hamburger-menu" id="hamburger-toggle" aria-label="Toggle navigation menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </header>
+
   <!-- Sidebar -->
-  <aside>
+  <aside id="sidebar">
     <!--<center><a href="https://www.corywright.org"><img id="avatar" src="https://www.corywright.org/images/twitter-image-192x192.jpg"></a></center>-->
     <div id="avatar-head"></div>
 
@@ -136,6 +150,40 @@
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
+  </script>
+
+  <!-- Hamburger Menu JavaScript -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const body = document.body;
+    
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('active');
+      sidebar.classList.toggle('nav-open');
+      body.classList.toggle('nav-open');
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!sidebar.contains(event.target) && !hamburger.contains(event.target)) {
+        hamburger.classList.remove('active');
+        sidebar.classList.remove('nav-open');
+        body.classList.remove('nav-open');
+      }
+    });
+    
+    // Close menu when clicking on a nav link
+    const navLinks = document.querySelectorAll('.nav__link');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        hamburger.classList.remove('active');
+        sidebar.classList.remove('nav-open');
+        body.classList.remove('nav-open');
+      });
+    });
+  });
   </script>
 
 </body>

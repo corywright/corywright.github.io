@@ -137,6 +137,76 @@ a:hover { text-decoration: underline; }
   padding: 8px;
 }
 
+/* Mobile Header */
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #2980b9;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.mobile-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 100%;
+}
+
+.mobile-logo {
+  display: flex;
+  align-items: center;
+}
+
+#avatar-mobile {
+  width: 40px;
+  height: 40px;
+  background-image: url("/images/blue-bg-square-192x192.jpg");
+  background-size: cover;
+  border-radius: 50%;
+  border: 2px solid #1DAEDF;
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.hamburger-line {
+  width: 30px;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
 /* Sidebar */
 aside {
   font-size: 14px;
@@ -246,15 +316,38 @@ aside > h2 {
 @media (max-width: 768px) {
   body {
     flex-direction: column;
+    padding-top: 60px;
+  }
+
+  .mobile-header {
+    display: block;
   }
 
   aside {
-    position: relative;
-    width: 100%;
-    min-height: auto;
+    position: fixed;
+    top: 60px;
+    left: -100%;
+    width: 280px;
+    min-height: calc(100vh - 60px);
     padding: 20px;
-    padding-top: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: left 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+  }
+
+  aside.nav-open {
+    left: 0;
+  }
+
+  body.nav-open::after {
+    content: '';
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
   }
 
   .nav {
@@ -310,6 +403,7 @@ aside > h2 {
 
   aside {
     padding: 15px;
+    width: 260px;
   }
 
   body > article {
@@ -359,6 +453,10 @@ aside > h2 {
   #avatar-head {
     width: 80px;
     height: 80px;
+  }
+
+  .mobile-header-content {
+    padding: 0 15px;
   }
 }
 
