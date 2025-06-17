@@ -72,9 +72,6 @@ article section .blog-post
 /* Body */
 body {
   margin: 0;
-  display: flex;
-  min-height: 100vh;
-  flex-direction: row;
 }
 
 body > article, footer {
@@ -83,7 +80,6 @@ body > article, footer {
   max-width: 750px;
   margin: 40px auto auto 330px;
   padding: 20px 30px 10px;
-  flex: 1;
 }
 
 body > footer {
@@ -315,7 +311,7 @@ aside > h2 {
 /* Mobile landscape and smaller */
 @media (max-width: 768px) {
   body {
-    flex-direction: column;
+    margin: 0;
     padding-top: 60px;
   }
 
@@ -495,6 +491,17 @@ html {
 a:focus, .nav__link:focus {
   outline: 2px solid #fff;
   outline-offset: 2px;
+}
+
+/* Hide mobile header on desktop */
+@media (min-width: 769px) {
+  .mobile-header {
+    display: none !important;
+  }
+  
+  aside {
+    display: block !important;
+  }
 }
 
 /* Ensure content doesn't get too wide on very large screens */
