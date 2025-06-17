@@ -77,8 +77,9 @@ body {
 body > article, footer {
   line-height: 1.6em;
   display: block;
-  max-width: 750px;
-  margin: 40px auto auto 330px;
+  margin-left: 330px;
+  margin-top: 40px;
+  margin-right: 40px;
   padding: 20px 30px 10px;
 }
 
@@ -86,6 +87,9 @@ body > footer {
   font-size: 0.875em;
   color: #778899;
   text-align: center;
+  margin-left: 330px;
+  margin-right: 40px;
+  margin-top: 0;
 }
 
 article ol
@@ -301,9 +305,15 @@ aside > h2 {
 
 /* Tablet and smaller screens */
 @media (max-width: 1024px) {
-  body > article, footer {
+  body > article {
     margin-left: 300px;
-    max-width: none;
+    margin-right: 20px;
+    padding: 20px;
+  }
+  
+  body > footer {
+    margin-left: 300px;
+    margin-right: 20px;
     padding: 20px;
   }
 }
@@ -354,13 +364,11 @@ aside > h2 {
   body > article {
     margin: 0;
     padding: 20px;
-    max-width: none;
   }
 
   body > footer {
     margin: 0;
     padding: 20px;
-    max-width: none;
   }
 
   #avatar {
@@ -505,8 +513,8 @@ a:focus, .nav__link:focus {
 }
 
 /* Ensure content doesn't get too wide on very large screens */
-@media (min-width: 1200px) {
+@media (min-width: 1400px) {
   body > article {
-    max-width: 800px;
+    max-width: 900px;
   }
 }
